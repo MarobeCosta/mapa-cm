@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa V5 — CHAT-MESTRE_002 — Estrutura PEI + URLs + Janelas</title>
+<style>
+  :root[data-theme="dark"] {
+    --bg: #0e0e14;
+    --bg-2: #14141d;
+    --panel: #1a1a26;
+    --panel-2: #232333;
+    --border: #2e2e42;
+    --border-soft: #242434;
+    --text: #ececf2;
+    --text-dim: #9090a4;
+    --text-faint: #5e5e74;
+    --accent: #ffd166;
+    --link: #67c3ff;
+  }
+  :root[data-theme="light"] {
+    --bg: #faf9f6;
+    --bg-2: #f0eee9;
+    --panel: #ffffff;
+    --panel-2: #f5f3ee;
+    --border: #d8d4ca;
+    --border-soft: #e6e3da;
+    --text: #1a1a24;
+    --text-dim: #5a5a6c;
+    --text-faint: #8e8ea0;
+    --accent: #c47b00;
+    --link: #0a6cb9;
+  }
+
+  /* Cores hierárquicas das camadas (farol INNER invertido: marrom=topo) */
+  :root {
+    --layer-co: #8d6e63;       /* MARROM — Universais (topo) */
+    --layer-pei: #4a90e2;      /* AZUL — PEI (governança pedagógica) */
+    --layer-tc: #2ecc71;       /* VERDE — Tecnologia (operacional principal) */
+    --layer-rb: #f1c40f;       /* AMARELO — Robótica */
+    --layer-elt: #e67e22;      /* LARANJA — Eletivas */
+    --layer-tut: #e74c3c;      /* VERMELHO — Tutoria (transversal) */
+    --layer-site: #d63384;     /* PINK — Saídas (governança de saídas) */
+    --layer-mestre: #6f42c1;   /* ROXO — Costura */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 18px 80px;
+    line-height: 1.5;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* ============== TOP BAR ============== */
+  .topbar {
+    max-width: 1500px;
+    margin: 0 auto 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .topbar h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+  }
+  .topbar h1 small {
+    display: block;
+    font-size: 13px;
+    color: var(--text-dim);
+    font-weight: 400;
+    margin-top: 2px;
+    letter-spacing: 0;
+  }
+  .topbar-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 7px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    transition: all 0.15s;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .search {
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 15px;
+    width: 220px;
+    font-family: inherit;
+  }
+  .search:focus { outline: none; border-color: var(--accent); }
+  .search.has-match { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(255,209,102,0.15); }
+
+  /* ============== LEGENDA ============== */
+  .legenda {
+    max-width: 1500px;
+    margin: 0 auto 24px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+  }
+  .legenda h3 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .legenda-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 6px 16px;
+  }
+  .leg-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+  .leg-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .leg-row {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-soft);
+  }
+
+  /* ============== MAPA ============== */
+  .mapa {
+    max-width: 1500px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .camada {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .camada-header {
+    padding: 13px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel-2);
+  }
+  .camada-header .dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .camada-header h2 {
+    font-size: 17px;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: -0.01em;
+  }
+  .camada-header .badge {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--text-dim);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .camada-desc {
+    padding: 10px 18px;
+    color: var(--text-dim);
+    font-size: 14px;
+    border-bottom: 1px solid var(--border-soft);
+    font-style: italic;
+  }
+  .projetos {
+    padding: 14px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+  }
+
+  /* ============== PROJETO ============== */
+  .projeto {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .projeto:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .projeto.expandido {
+    grid-column: 1 / -1;
+  }
+  .projeto.match-search {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(255,209,102,0.15);
+  }
+  .projeto-codigo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .projeto-nome {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .projeto-desc {
+    font-size: 13px;
+    color: var(--text-faint);
+    margin-bottom: 6px;
+    font-style: italic;
+  }
+  .projeto-meta {
+    font-size: 12px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .copy-btn {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-left: auto;
+  }
+  .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ============== STATUS DOT ============== */
+  .status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .status.running { background: #f1c40f; box-shadow: 0 0 6px rgba(241,196,15,0.4); }
+  .status.done { background: #2ecc71; }
+  .status.planned { background: #607d8b; }
+  .status.pending { background: #444450; border: 1px dashed var(--text-dim); }
+
+  /* ============== CHATS ============== */
+  .chats {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 6px;
+  }
+  .chat {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    padding: 7px 10px;
+    background: var(--bg-2);
+    border-radius: 4px;
+    color: var(--text-dim);
+    border-left: 2px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    position: relative;
+  }
+  .chat.destaque { border-left-color: var(--accent); color: var(--text); }
+  .chat-nome {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .chat-desc {
+    font-size: 12px;
+    color: var(--text-faint);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-style: italic;
+    line-height: 1.4;
+  }
+  .chat-copy {
+    font-size: 11px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-faint);
+    padding: 1px 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-left: auto;
+    font-family: inherit;
+  }
+  .chat-copy:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* Cores das camadas no header */
+  .camada.co .camada-header .dot { background: var(--layer-co); }
+  .camada.co { border-color: rgba(141,110,99,0.3); }
+  .camada.pei .camada-header .dot { background: var(--layer-pei); }
+  .camada.pei { border-color: rgba(74,144,226,0.3); }
+  .camada.tc .camada-header .dot { background: var(--layer-tc); }
+  .camada.tc { border-color: rgba(46,204,113,0.3); }
+  .camada.rb .camada-header .dot { background: var(--layer-rb); }
+  .camada.rb { border-color: rgba(241,196,15,0.3); }
+  .camada.elt .camada-header .dot { background: var(--layer-elt); }
+  .camada.elt { border-color: rgba(230,126,34,0.3); }
+  .camada.tut .camada-header .dot { background: var(--layer-tut); }
+  .camada.tut { border-color: rgba(231,76,60,0.3); }
+  .camada.site .camada-header .dot { background: var(--layer-site); }
+  .camada.site { border-color: rgba(214,51,132,0.3); }
+  .camada.mestre .camada-header .dot { background: var(--layer-mestre); }
+  .camada.mestre { border-color: rgba(111,66,193,0.4); }
+
+  /* ============== PAINÉIS ============== */
+  .pendencias, .conexoes {
+    max-width: 1500px;
+    margin: 24px auto;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+  }
+  .pendencias { border-left: 3px solid var(--accent); }
+  .pendencias h3, .conexoes h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 15px;
+    margin-bottom: 12px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .pendencias ul {
+    list-style: none;
+    display: grid;
+    gap: 6px;
+  }
+  .pendencias li {
+    font-size: 14px;
+    padding-left: 18px;
+    position: relative;
+    color: var(--text-dim);
+  }
+  .pendencias li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+  .fluxo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 8px;
+    background: var(--bg-2);
+    border-radius: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+  }
+  .nó {
+    padding: 3px 8px;
+    background: var(--panel-2);
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .seta { color: var(--accent); font-weight: bold; }
+
+  /* ============== TOAST ============== */
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--panel);
+    border: 1px solid var(--accent);
+    color: var(--text);
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1000;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+
+  /* Hidden when search filter applied */
+  .projeto.hidden, .camada.hidden { display: none; }
+  .projeto.filter-hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>MAPA V5 — CHAT-MESTRE_002
+    <small>Estrutura PEI + URLs + Janelas · 36 projetos · 1º semestre 2026</small>
+  </h1>
+  <div class="topbar-actions">
+    <input type="search" class="search" id="search" placeholder="🔍 Buscar projeto/chat...">
+    <button class="btn" id="theme-toggle">☀️ / 🌙</button>
+    <button class="btn" id="expand-all">⊞ Expandir</button>
+    <button class="btn" id="collapse-all">⊟ Recolher</button>
+    <button class="btn" id="export-urls" title="Baixar JSON com todas as URLs preenchidas">💾 Exportar URLs</button>
+    <button class="btn" id="import-urls" title="Carregar JSON salvo">📂 Importar URLs</button>
+    <input type="file" id="import-file" accept=".json" style="display:none">
+  </div>
+</div>
+
+<div id="progress-bar" style="background:var(--panel);border:1px solid var(--border);padding:8px 16px;margin:8px 0;border-radius:6px;font-size:15px;color:var(--text-dim);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+  <div id="progress-text">📊 Progresso: <span id="proj-count">0</span> de 36 projetos com URL · <span id="chat-count">0</span> chats com URL</div>
+  <div id="filter-buttons" style="display:flex;gap:6px;flex-wrap:wrap;">
+    <button class="btn-filter" data-filter="all" style="font-size:13px;padding:4px 8px;">Todos</button>
+    <button class="btn-filter" data-filter="empty" style="font-size:13px;padding:4px 8px;">⚫ Sem URL</button>
+    <button class="btn-filter" data-filter="active" style="font-size:13px;padding:4px 8px;">🟡 Em uso</button>
+    <button class="btn-filter" data-filter="done" style="font-size:13px;padding:4px 8px;">🟢 Concluído</button>
+    <button class="btn-filter" data-filter="alert" style="font-size:13px;padding:4px 8px;">⚠️ Pendência</button>
+  </div>
+</div>
+
+<div class="legenda">
+  <h3>Camadas (do mais essencial ao mais específico)</h3>
+  <div class="legenda-grid">
+    <div class="leg-item"><span class="leg-dot" style="background:var(--layer-co)"></span>🟤 CO_N0 · Universais (topo)</div>
+    <div class="leg-item"><span class="leg-dot" style="background:var(--layer-pei)"></span>🔵 PEI · Premissas/Competências</div>
+    <div class="leg-item"><span class="leg-dot" style="background:var(--layer-tc)"></span>🟢 TC_ · Tecnologia</div>
+    <div class="leg-item"><span class="leg-dot" style="background:var(--layer-rb)"></span>🟡 RB_ · Robótica</div>
+    <div class="leg-item"><span class="leg-dot" style="background:var(--layer-elt)"></span>🟠 ELT_ · Eletivas</div>
+    <div class="leg-item"><span class="leg-dot" style="background:var(--layer-tut)"></span>🔴 TUT_ · Tutoria</div>
+    <div class="leg-item"><span class="leg-dot" style="background:var(--layer-site)"></span>💗 SITE_ · Saídas (governança)</div>
+    <div class="leg-item"><span class="leg-dot" style="background:var(--layer-mestre)"></span>🟣 CHAT-MESTRE · Costura</div>
+  </div>
+  <div class="leg-row legenda-grid">
+    <div class="leg-item"><span class="status running"></span>Em curso</div>
+    <div class="leg-item"><span class="status done"></span>Concluído</div>
+    <div class="leg-item"><span class="status planned"></span>Planejado</div>
+    <div class="leg-item"><span class="status pending"></span>A definir</div>
+    <div class="leg-item">⭐ destaque · ⚠️ pendência · 🔗 vínculo SITE_</div>
+  </div>
+</div>
+
+<div class="mapa" id="mapa"></div>
+
+<div class="conexoes">
+  <h3>🔗 Conexões cruzadas críticas</h3>
+  <div class="fluxo">
+    <span class="nó">Cards aula</span><span class="seta">→</span>
+    <span class="nó">Gabarito</span><span class="seta">→</span>
+    <span class="nó">NAV.01–05</span><span class="seta">→</span>
+    <span class="nó">Relatório INNER</span><span class="seta">→</span>
+    <span class="nó">Devolutiva/Premiação</span>
+  </div>
+  <div class="fluxo">
+    <span class="nó">NAV.04 QPA-E</span><span class="seta">→</span>
+    <span class="nó">SITE_ padrão adaptativo</span><span class="seta">→</span>
+    <span class="nó">Estudante (nome+série)</span><span class="seta">→</span>
+    <span class="nó">Nível recuperação</span>
+  </div>
+  <div class="fluxo">
+    <span class="nó">QBA Alura</span><span class="seta">→</span>
+    <span class="nó">Descontrução (Polya/Bloom/5W1H)</span><span class="seta">→</span>
+    <span class="nó">Aula Nota 10 / Julgamento Matlock</span><span class="seta">→</span>
+    <span class="nó">Devolutiva turma</span>
+  </div>
+  <div class="fluxo">
+    <span class="nó">Acomp G+C semanal (PEI_03.2)</span><span class="seta">→</span>
+    <span class="nó">Reavaliação (PEI_04.3)</span><span class="seta">→</span>
+    <span class="nó">Plano de melhoria (PEI_03.3)</span><span class="seta">→</span>
+    <span class="nó">Ajustes nos cards</span>
+  </div>
+  <div class="fluxo">
+    <span class="nó">Registros aula</span><span class="seta">→</span>
+    <span class="nó">Mapa Anual Escopo/Hab/Descritor</span><span class="seta">→</span>
+    <span class="nó">PAC 2026</span>
+  </div>
+  <div class="fluxo">
+    <span class="nó">SITE_ padrões</span><span class="seta">→</span>
+    <span class="nó">Sites_HTML em TC/RB/ELT/TUT</span><span class="seta">→</span>
+    <span class="nó">Hub_Index_Sites</span>
+  </div>
+</div>
+
+<div class="pendencias">
+  <h3>⚠️ Pendências do 1º bimestre (próximos passos urgentes)</h3>
+  <ul>
+    <li>Relatórios INNER consolidados por turma (TC_REL · RB_REL)</li>
+    <li>Devolutivas das avaliações 1º bim (TC_AVA_1B · descontrução QBA)</li>
+    <li>Premiações por farol de incentivo (bombons, Bis, pirulitos, balas)</li>
+    <li>Fechamento de notas 1º bim</li>
+    <li>NAV.04 QPA-E V.03.00 → V.03.01 para 6º, 7º e 9º (correção linha 28 chars + "ano" minúsculo)</li>
+    <li>2ª chamada SAAIB 9ºC ✅ aplicada (28/04) — falta registrar relatório</li>
+    <li>2º bim em curso desde 24/04 — começar cards e estrutura nas turmas</li>
+  </ul>
+</div>
+
+<div class="toast" id="toast">Copiado!</div>
+
+<script>
+// ============== DADOS ==============
+const dados = [
+  // ===== CAMADA UNIVERSAL CO_ =====
+  {
+    camada: 'co',
+    titulo: '🟤 CAMADA UNIVERSAL · CO_N0.XX',
+    descCamada: 'Bases conceituais que todos os outros projetos consultam (governança, ontologia, dicionário, perfis, repositório, metodologias, meta-conhecimento Claude)',
+    badge: '7 projetos',
+    expandido: true,
+    projetos: [
+      {
+        codigo: 'CO_N0.01', nome: 'Governança',
+        desc: 'Regras, padrões, prompts universais e mapa-mestre do sistema',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_Governança', d: 'Agente do projeto · guarda regras gerais' },
+          { n: '01=Prompt_Mãe_Universal', d: 'Prompt-base que todos os outros chats herdam' },
+          { n: '02=Padrões_Saída', d: 'Modos LIGHT/SLIM/FLEX/FULL · cabeçalho CLD · cores' },
+          { n: '03=Regras_Roteamento', d: 'Como CHAT-MESTRE distribui ideias para chats especializados' },
+          { n: '04=Mapa_Projetos_Chats', d: 'Lista viva de toda estrutura (este HTML)' },
+          { n: '05=Histórico_Versões_GOV', d: 'Changelog de governança' }
+        ]
+      },
+      {
+        codigo: 'CO_N0.02', nome: 'Ontologia',
+        desc: 'Estrutura conceitual de Computação (eixos BNCC, hierarquia temática)',
+        status: 'planned',
+        chats: [
+          { n: '00=Assistente_Ontologia', d: 'Agente do projeto' },
+          { n: '01=Eixos_BNCC_Computação', d: 'Pensamento computacional, mundo digital, cultura digital' },
+          { n: '02=Hierarquia_Temática', d: 'Taxonomia de tópicos' },
+          { n: '03=Conexões_Inter_Eixos', d: 'Relações entre os eixos da BNCC Computação' }
+        ]
+      },
+      {
+        codigo: 'CO_N0.03', nome: 'Dicionário',
+        desc: 'Siglas, nomenclaturas e convenções (NAV, AAIM, QPA, SAAIB, farol, emojis, paleta)',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_Dicionário', d: 'Agente do projeto' },
+          { n: '01=Siglas_Sistema', d: 'NAV, AAIM, ADE, QPA, QDA, QBA, SAAIB' },
+          { n: '02=Siglas_SEDUC', d: 'BI, 7 cores, farol pedagógico' },
+          { n: '03=Convenções_Nomenclatura', d: 'Padrões de nomes de chats e arquivos' },
+          { n: '04=Emojis_Recursos_Cards', d: '🎬📝✅🔤✍️🤖🎨🧪🔍🏆📚🧠 (tipologia A–H)' },
+          { n: '05=Paleta_Cores_Cards', d: 'Roxo→Marrom (cards aula) · Marrom→Roxo (farol notas) · pré-paleta preto/branco' }
+        ]
+      },
+      {
+        codigo: 'CO_N0.04', nome: 'Estudantes',
+        desc: 'Perfis individuais por turma, projeto de vida, áreas de interesse, acompanhamento',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_Estudantes', d: 'Agente do projeto' },
+          { n: '01=Áreas_Projeto_Vida', d: '~350 áreas de interesse para perfil' },
+          { n: '02=Perfis_6ºA', d: 'Lista, perfis individuais, projeto de vida' },
+          { n: '03=Perfis_6ºB', d: 'Idem' },
+          { n: '04=Perfis_7ºA', d: 'Idem' },
+          { n: '05=Perfis_7ºB', d: 'Idem' },
+          { n: '06=Perfis_8ºA', d: 'Idem' },
+          { n: '07=Perfis_8ºB', d: 'Idem' },
+          { n: '08=Perfis_9ºA', d: 'Idem' },
+          { n: '09=Perfis_9ºB', d: 'Idem' },
+          { n: '10=Perfis_9ºC', d: 'Idem' },
+          { n: '11=Perfis_9ºD', d: 'Idem' },
+          { n: '12=Acomp_Aula_Aula (a definir)', d: '⚠️ Reservado · alocação definitiva quando 1º registro for feito' }
+        ]
+      },
+      {
+        codigo: 'CO_N0.05', nome: 'Repositório',
+        desc: 'Memória estrutural · decisões · histórico de migração · backlog',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_Repositório', d: 'Agente do projeto' },
+          { n: '01=Decisões_Estruturais', d: 'Marcos consolidados' },
+          { n: '02=Histórico_Migração', d: 'GPT/INNER → Claude' },
+          { n: '03=Backlog_Pendências', d: 'Lista viva de pendências' }
+        ]
+      },
+      {
+        codigo: 'CO_N0.06', nome: 'Metodologias',
+        desc: 'Frameworks pedagógicos transversais (descontrução, aula nota 10, resolução passo a passo)',
+        status: 'planned',
+        chats: [
+          { n: '00=Assistente_Metodologias', d: 'Agente do projeto' },
+          { n: '01=Macro_Submicro_Competências', d: 'Socioemocionais (espelho operacional do PEI)' },
+          { n: '02=Frameworks_Pedagógicos_Gerais', d: 'Outros frameworks' },
+          { n: '03=Descontrução_Questões', d: '⭐ Polya · Bloom · socrático · POE · 5W1H' },
+          { n: '04=Aula_Nota_10', d: '⭐ Perguntas instigadoras · fala distribuída · julgamento Matlock' },
+          { n: '05=Resolução_Passo_a_Passo', d: 'Estrutura de resolução guiada' }
+        ]
+      },
+      {
+        codigo: 'CO_N0.07', nome: 'Claude_Aprendizados',
+        desc: '⭐ Meta-conhecimento sobre o próprio Claude · modos · ferramentas · padrões de governança · referência transversal para todos os projetos',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_Claude_Aprendizados', d: 'Agente do projeto' },
+          { n: '01=Modos_LIGHT_a_FULL', d: '⭐ Manual consolidado dos 6 modos com exemplos práticos' },
+          { n: '02=Comandos_Controle_Tokens', d: 'Lista completa de comandos de controle de tokens' },
+          { n: '03=Ferramentas_Internas', d: 'conversation_search · web_search · web_fetch · code_execution · quando autônomo vs pedido explícito' },
+          { n: '04=Limitacoes_Interface_Claude', d: 'Botões interativos × Shift+Enter · anexos · limites por chat' },
+          { n: '05=Padrões_Governança_CLD', d: 'CLD-XXX · notação P.N.X · botões híbridos · escala de 6 modos' },
+          { n: '06=Boas_Práticas_Uso', d: 'Como pedir bem · evitar bajulação · economia de tokens' },
+          { n: '07=Histórico_Origem', d: '⭐ Discussão "Planilha Colírio" 01/05/2026 · CLD-005 a CLD-033 · 9 memórias persistentes consolidadas' }
+        ]
+      }
+    ]
+  },
+
+  // ===== CAMADA PEI =====
+  {
+    camada: 'pei',
+    titulo: '🔵 CAMADA PEI · 7 Competências oficiais SEDUC-SP',
+    descCamada: 'Estrutura oficial do Programa Ensino Integral · 5 premissas materializadas em 7 competências (cada premissa pode atravessar várias competências)',
+    badge: '7 projetos',
+    expandido: true,
+    projetos: [
+      {
+        codigo: 'PEI_01', nome: 'Protagonismo',
+        desc: 'Promove protagonismo juvenil, autonomia, solidariedade · Premissa Protagonismo',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_PEI_01', d: 'Agente do projeto' },
+          { n: '01=Comp_1.1_Respeito_Individualidade', d: 'Conhecer perfis · projetos de vida · diferenças (gênero/raça/socioec)' },
+          { n: '02=Comp_1.2_Promocao_Protagonismo_Juvenil', d: 'Eletivas · clubes · grêmio · líderes de turma · projetos juvenis' },
+          { n: '03=Comp_1.3_Protagonismo_Senior', d: '⭐ Postura modelo do docente · presença educativa · propósito de atuação' }
+        ]
+      },
+      {
+        codigo: 'PEI_02', nome: 'Domínio e Contextualização',
+        desc: 'Possui domínio da área, contextualiza com BNCC, Parte Diversificada e Projeto de Vida · Premissa Formação Continuada',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_PEI_02', d: 'Agente do projeto' },
+          { n: '01=Comp_2.1_Dominio_Conhecimento', d: 'Currículo SP · BNCC Computação · conteúdo' },
+          { n: '02=Comp_2.2_Didatica', d: 'Práticas pedagógicas · avaliações coerentes · uso de tecnologia' },
+          { n: '03=Comp_2.3_Contextualizacao', d: 'Parte Diversificada · interdisciplinaridade · realidade do aluno' }
+        ]
+      },
+      {
+        codigo: 'PEI_03', nome: 'Autodesenvolvimento',
+        desc: 'Disposição contínua para aprender, receber devolutivas, mudar · Premissa Formação Continuada',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_PEI_03', d: 'Agente do projeto' },
+          { n: '01=Comp_3.1_Formacao_Continua', d: '⭐ EFAPE Multiplica em Tecnologia · Faculdade Educação+Tecnologia · cursos · leituras' },
+          { n: '02=Comp_3.2_Devolutivas', d: '⭐ Acomp G+C semanal · feedback estudantes · escuta aberta' },
+          { n: '03=Comp_3.3_Disposicao_Mudanca', d: 'Plano de melhoria docente · abertura ao novo · ajustes na prática' }
+        ]
+      },
+      {
+        codigo: 'PEI_04', nome: 'Comprometimento Processo/Resultado',
+        desc: 'Planeja, executa, reavalia ações alinhadas ao Plano de Ação da escola · Premissa Excelência em Gestão',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_PEI_04', d: 'Agente do projeto' },
+          { n: '01=Comp_4.1_Planejamento', d: '⭐ Agenda/Horário/Rotina (inclui janelas de produção 3h–6h, segunda EFAPE) · Programa de Ação · planejamento bimestral' },
+          { n: '02=Comp_4.2_Execucao', d: 'Execução das ações planejadas · alinhamento vertical/horizontal' },
+          { n: '03=Comp_4.3_Reavaliacao', d: 'Autoavaliação docente bimestral · revisão de metas · replanejamento' }
+        ]
+      },
+      {
+        codigo: 'PEI_05', nome: 'Relacionamento e Corresponsabilidade',
+        desc: 'Vínculos positivos com alunos, colegas, gestão, pais · Premissa Corresponsabilidade',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_PEI_05', d: 'Agente do projeto' },
+          { n: '01=Comp_5.1_Relacionamento_Colaboracao', d: 'Vínculos com estudantes · clima de trabalho com colegas · gestão' },
+          { n: '02=Comp_5.2_Corresponsabilidade', d: 'Projetos coletivos · participação dos pais · parcerias' }
+        ]
+      },
+      {
+        codigo: 'PEI_06', nome: 'Solução e Criatividade',
+        desc: 'Visão crítica, foco em solução, criatividade na prática docente · Premissa Replicabilidade',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_PEI_06', d: 'Agente do projeto' },
+          { n: '01=Comp_6.1_Visao_Critica', d: 'Identificação de pontos de melhoria · ponderação contexto' },
+          { n: '02=Comp_6.2_Foco_Solucao', d: 'Implementação de soluções práticas · resolução de problemas' },
+          { n: '03=Comp_6.3_Criatividade', d: '⭐ Projetos pessoais com IA/automação · renda extra atualidades IA · novas práticas inovadoras' }
+        ]
+      },
+      {
+        codigo: 'PEI_07', nome: 'Difusão e Multiplicação',
+        desc: 'Documenta, compartilha, multiplica boas práticas como rede · Premissa Replicabilidade',
+        status: 'planned',
+        chats: [
+          { n: '00=Assistente_PEI_07', d: 'Agente do projeto' },
+          { n: '01=Comp_7.1_Registro_Boas_Praticas', d: 'Documentação do que funcionou (experiências e ferramentas)' },
+          { n: '02=Comp_7.2_Difusao', d: 'Compartilhamento com colegas e escola' },
+          { n: '03=Comp_7.3_Multiplicacao', d: 'Embaixador do PEI · rede e comunidade' }
+        ]
+      }
+    ]
+  },
+
+  // ===== CAMADA TC_ =====
+  {
+    camada: 'tc',
+    titulo: '🟢 CAMADA TECNOLOGIA · TC_*',
+    descCamada: 'Operacional do componente Tecnologia · fatiado por ano + bimestre (1º semestre = 8 projetos de aulas + 2 de avaliações + 1 de relatórios)',
+    badge: '12 projetos · 1º semestre',
+    expandido: false,
+    projetos: [
+      { codigo: 'TC_AUL_6_1B', nome: 'Aulas 6º · 1º bim', desc: '6º ano · cards · aulas · gabaritos · registros · prompts HTML', status: 'running', chats: tcAulasChats('6', '1B') },
+      { codigo: 'TC_AUL_6_2B', nome: 'Aulas 6º · 2º bim', desc: '6º ano · 2º bim em curso desde 24/04', status: 'running', chats: tcAulasChats('6', '2B') },
+      { codigo: 'TC_AUL_7_1B', nome: 'Aulas 7º · 1º bim', desc: '7º ano · 1º bim', status: 'running', chats: tcAulasChats('7', '1B') },
+      { codigo: 'TC_AUL_7_2B', nome: 'Aulas 7º · 2º bim', desc: '7º ano · 2º bim em curso', status: 'running', chats: tcAulasChats('7', '2B') },
+      { codigo: 'TC_AUL_8_1B', nome: 'Aulas 8º · 1º bim', desc: '8º ano · 1º bim', status: 'running', chats: tcAulasChats('8', '1B') },
+      { codigo: 'TC_AUL_8_2B', nome: 'Aulas 8º · 2º bim', desc: '8º ano · 2º bim em curso', status: 'running', chats: tcAulasChats('8', '2B') },
+      { codigo: 'TC_AUL_9_1B', nome: 'Aulas 9º · 1º bim', desc: '9º ano · 1º bim', status: 'running', chats: tcAulasChats('9', '1B') },
+      { codigo: 'TC_AUL_9_2B', nome: 'Aulas 9º · 2º bim · ⭐ Educação Midiática parte 2 · Julgamento Matlock', desc: '9º ano · 2º bim · concentração das ideias A/D/E/F (julgamento, infográficos)', status: 'running', chats: tcAulasChats('9', '2B', true) },
+      {
+        codigo: 'TC_AVA_1B', nome: 'Avaliações · 1º bim',
+        desc: 'AAIMs · NAV.04 QPA-E (V.03.01 pendente para 6º/7º/9º) · QBA Alura · SAAIB · descontrução · recuperação',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_TC_AVA_1B', d: 'Agente do projeto' },
+          { n: '01=Calendário_Avaliações_1B', d: 'Calendário oficial 1º bim' },
+          { n: '02=AAIM_1B_6º', d: 'Aplicação e correção AAIM 6º' },
+          { n: '03=AAIM_1B_7º', d: 'Idem 7º' },
+          { n: '04=AAIM_1B_8º', d: 'Idem 8º' },
+          { n: '05=AAIM_1B_9º', d: 'Idem 9º' },
+          { n: '06=NAV04_1B_6º_QPAE', d: '⚠️ V.03.00 → V.03.01 (correção linha + ano minúsculo)' },
+          { n: '07=NAV04_1B_7º_QPAE', d: '⚠️ Idem' },
+          { n: '08=NAV04_1B_8º_QPAE', d: '✅ V.03.01 já corrigido' },
+          { n: '09=NAV04_1B_9º_QPAE', d: '⚠️ Idem' },
+          { n: '10=NAV05_1B_QBA_Alura', d: 'Aplicação QBA oficial Alura' },
+          { n: '11=Devolutiva_QBA_Descontrução', d: '⭐ Aula de devolutiva com descontrução das 10 questões (Polya/Bloom/5W1H)' },
+          { n: '12=SAAIB_1B', d: 'SAAIB aplicada · 9ºC com 2ª chamada concluída em 28/04' },
+          { n: '13=Recuperação_1B', d: 'Recuperação de aprendizagem' },
+          { n: '14=Gabaritos_Forms_1B', d: 'Gabaritos atualizados Alura desatualizados' }
+        ]
+      },
+      {
+        codigo: 'TC_AVA_2B', nome: 'Avaliações · 2º bim',
+        desc: 'Estrutura espelhada do 1B · em curso',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_TC_AVA_2B', d: 'Agente do projeto' },
+          { n: '01=Calendário_Avaliações_2B', d: 'Calendário 2º bim' },
+          { n: '02–05=AAIMs por ano (6º a 9º)', d: 'Estrutura padrão' },
+          { n: '06–09=NAV04_QPAE por ano', d: 'V.03.01 (já corrigido)' },
+          { n: '10=NAV05_2B_QBA_Alura', d: 'QBA Alura' },
+          { n: '11=Devolutiva_QBA_Descontrução', d: 'Aula nota 10 + descontrução' },
+          { n: '12=SAAIB_2B', d: 'SAAIB 2º bim' },
+          { n: '13=Recuperação_2B', d: 'Recuperação' },
+          { n: '14=Gabaritos_Forms_2B', d: 'Gabaritos' }
+        ]
+      },
+      {
+        codigo: 'TC_REL', nome: 'Relatórios INNER (todas turmas/bimestres)',
+        desc: '⭐ URGÊNCIA 1º bim · modelo INNER · farol 7 cores · relatórios por turma · devolutivas · premiações',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_TC_REL', d: 'Agente do projeto · padrão INNER e farol' },
+          { n: '01=Modelo_INNER_Master', d: 'Template-mestre dos relatórios' },
+          { n: '02=Farol_BI_7Cores_SEDUC', d: 'Padrão farol pedagógico (marrom → roxo)' },
+          { n: '03=Rel_1AAIM_Geral', d: 'Consolidado 1ª AAIM todas turmas' },
+          { n: '04=Rel_2AAIM_Geral', d: 'Consolidado 2ª AAIM todas turmas' },
+          { n: '05=Rel_INNER_6ºA', d: 'Por turma · individualizado' },
+          { n: '06=Rel_INNER_6ºB', d: 'Idem' },
+          { n: '07=Rel_INNER_7ºA', d: 'Idem' },
+          { n: '08=Rel_INNER_7ºB', d: 'Idem' },
+          { n: '09=Rel_INNER_8ºA', d: 'Idem' },
+          { n: '10=Rel_INNER_8ºB', d: 'Idem' },
+          { n: '11=Rel_INNER_9ºA', d: 'Idem' },
+          { n: '12=Rel_INNER_9ºB', d: 'Idem' },
+          { n: '13=Rel_INNER_9ºC', d: '⭐ inclui 2ª chamada SAAIB aplicada 28/04' },
+          { n: '14=Rel_INNER_9ºD', d: 'Idem' },
+          { n: '15=Devolutivas_Premiações', d: '⭐ Bombons · Bis · pirulitos · balas por farol de incentivo' }
+        ]
+      },
+      {
+        codigo: 'TC_FEC', nome: 'Fechamento de Bimestre · Tecnologia',
+        desc: 'Consolidação de notas finais por turma · ADE+PAC+AAIM+atividade · alimenta SED',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_TC_FEC', d: 'Agente do projeto' },
+          { n: '01=Modelo_Fechamento_Master', d: 'Template do consolidado de notas' },
+          { n: '02=Tabela_Notas_Origem', d: 'Mapa de pesos · ADE Q1-Q4 · PAC · AAIM 1+2 · SAAIB · atividades · Pontos por aula' },
+          { n: '03=Calendário_Fechamentos', d: 'Prazos SED por bimestre' },
+          { n: '04=Pontos_Aula_Master', d: 'Planilha mãe de pontos por aula · alimenta turmas' },
+          { n: '05=Pontos_Aula_Master_HTML', d: 'HTML para projeção em sala · estudante vê pontuação ao vivo' },
+          { n: '06=Duplas_Pareadas_Master', d: 'Lógica de pareamento por farol pós-SAAIB' },
+          { n: '07=Duplas_Pareadas_HTML', d: 'HTML interativo para escolha guiada (forte escolhe entre fracos)' },
+          { n: '08=Fec_6A_1B', d: 'Fechamento turma 6ºA · 1º bim' },
+          { n: '09=Fec_6B_1B', d: 'Fechamento turma 6ºB · 1º bim' },
+          { n: '10=Fec_7A_1B', d: 'Fechamento turma 7ºA · 1º bim' },
+          { n: '11=Fec_7B_1B', d: 'Fechamento turma 7ºB · 1º bim' },
+          { n: '12=Fec_8A_1B', d: 'Fechamento turma 8ºA · 1º bim' },
+          { n: '13=Fec_8B_1B', d: 'Fechamento turma 8ºB · 1º bim' },
+          { n: '14=Fec_9A_1B', d: 'Fechamento turma 9ºA · 1º bim' },
+          { n: '15=Fec_9B_1B', d: 'Fechamento turma 9ºB · 1º bim' },
+          { n: '16=Fec_9C_1B', d: 'Fechamento turma 9ºC · 1º bim' },
+          { n: '17=Fec_9D_1B', d: 'Fechamento turma 9ºD · 1º bim' },
+          { n: '18=Fec_6A_2B', d: 'Fechamento turma 6ºA · 2º bim' },
+          { n: '19=Fec_6B_2B', d: 'Fechamento turma 6ºB · 2º bim' },
+          { n: '20=Fec_7A_2B', d: 'Fechamento turma 7ºA · 2º bim' },
+          { n: '21=Fec_7B_2B', d: 'Fechamento turma 7ºB · 2º bim' },
+          { n: '22=Fec_8A_2B', d: 'Fechamento turma 8ºA · 2º bim' },
+          { n: '23=Fec_8B_2B', d: 'Fechamento turma 8ºB · 2º bim' },
+          { n: '24=Fec_9A_2B', d: 'Fechamento turma 9ºA · 2º bim' },
+          { n: '25=Fec_9B_2B', d: 'Fechamento turma 9ºB · 2º bim' },
+          { n: '26=Fec_9C_2B', d: 'Fechamento turma 9ºC · 2º bim' },
+          { n: '27=Fec_9D_2B', d: 'Fechamento turma 9ºD · 2º bim' },
+          { n: '28=Consolidado_1B', d: 'Visão geral 1º bim · todas as turmas' },
+          { n: '29=Consolidado_2B', d: 'Visão geral 2º bim · todas as turmas' }
+        ]
+      }
+    ]
+  },
+
+  // ===== CAMADA RB_ =====
+  {
+    camada: 'rb',
+    titulo: '🟡 CAMADA ROBÓTICA · RB_* (só 6º ano)',
+    descCamada: 'Operacional do componente Robótica · só 6ºA e 6ºB · estrutura espelhada de TC',
+    badge: '6 projetos · 1º semestre',
+    expandido: false,
+    projetos: [
+      { codigo: 'RB_AUL_6_1B', nome: 'RB Aulas 6º · 1º bim', desc: 'Aulas Robótica 6º · 1º bim', status: 'running', chats: rbAulasChats('1B') },
+      { codigo: 'RB_AUL_6_2B', nome: 'RB Aulas 6º · 2º bim', desc: 'Aulas Robótica 6º · 2º bim em curso', status: 'running', chats: rbAulasChats('2B') },
+      { codigo: 'RB_AVA_1B', nome: 'RB Avaliações · 1º bim', desc: 'AAIM/NAV/SAAIB Robótica 1º bim', status: 'running', chats: [
+        { n: '00=Assistente_RB_AVA_1B', d: 'Agente do projeto' },
+        { n: '01=Calendário_Avaliações_RB_1B', d: 'Calendário' },
+        { n: '02=AAIM_RB_1B_6º', d: 'AAIM Robótica' },
+        { n: '03=NAV04_RB_1B_6º', d: 'NAV.04 Robótica' },
+        { n: '04=NAV05_RB_1B_QBA', d: 'QBA Robótica (se aplicável)' },
+        { n: '05=Recuperação_RB_1B', d: 'Recuperação' }
+      ] },
+      { codigo: 'RB_AVA_2B', nome: 'RB Avaliações · 2º bim', desc: 'Estrutura espelhada · em curso', status: 'running', chats: [
+        { n: '00=Assistente_RB_AVA_2B', d: 'Agente do projeto' },
+        { n: '01=Calendário_Avaliações_RB_2B', d: 'Calendário' },
+        { n: '02=AAIM_RB_2B_6º', d: 'AAIM' },
+        { n: '03=NAV04_RB_2B_6º', d: 'NAV.04' },
+        { n: '04=NAV05_RB_2B_QBA', d: 'QBA' },
+        { n: '05=Recuperação_RB_2B', d: 'Recuperação' }
+      ] },
+      { codigo: 'RB_REL', nome: 'RB Relatórios INNER', desc: 'Relatórios INNER da Robótica (6ºA e 6ºB)', status: 'running', chats: [
+        { n: '00=Assistente_RB_REL', d: 'Agente do projeto' },
+        { n: '01=Modelo_INNER_RB', d: 'Template' },
+        { n: '02=Rel_1AAIM_RB', d: 'Consolidado 1ª AAIM' },
+        { n: '03=Rel_2AAIM_RB', d: 'Consolidado 2ª AAIM' },
+        { n: '04=Rel_INNER_RB_6ºA', d: 'Individualizado' },
+        { n: '05=Rel_INNER_RB_6ºB', d: 'Individualizado' }
+      ] },
+      { codigo: 'RB_FEC', nome: 'Fechamento de Bimestre · Robótica',
+        desc: 'Consolidação de notas finais Robótica · ADE+PAC+AAIM+PXT · alimenta SED',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_RB_FEC', d: 'Agente do projeto' },
+          { n: '01=Modelo_Fechamento_RB', d: 'Template do consolidado de notas RB' },
+          { n: '02=Tabela_Notas_Origem_RB', d: 'Mapa de pesos · ADE Q1-Q4 · PAC · AAIM · PXT · Pontos' },
+          { n: '03=Pontos_Aula_RB_Master', d: 'Planilha mãe RB de pontos por aula' },
+          { n: '04=Pontos_Aula_RB_Master_HTML', d: 'HTML para projeção em sala RB' },
+          { n: '05=Duplas_Pareadas_RB', d: 'Pareamento por farol · Robótica' },
+          { n: '06=Duplas_Pareadas_RB_HTML', d: 'HTML interativo para escolha guiada' },
+          { n: '07=Fec_RB_6A_1B', d: 'Fechamento RB 6ºA · 1º bim' },
+          { n: '08=Fec_RB_6B_1B', d: 'Fechamento RB 6ºB · 1º bim' },
+          { n: '09=Fec_RB_6A_2B', d: 'Fechamento RB 6ºA · 2º bim' },
+          { n: '10=Fec_RB_6B_2B', d: 'Fechamento RB 6ºB · 2º bim' },
+          { n: '11=Consolidado_RB_1B', d: 'Visão geral 1º bim · 6ºA + 6ºB' },
+          { n: '12=Consolidado_RB_2B', d: 'Visão geral 2º bim · 6ºA + 6ºB' }
+        ]
+      }
+    ]
+  },
+
+  // ===== CAMADA ELT_ =====
+  {
+    camada: 'elt',
+    titulo: '🟠 CAMADA ELETIVAS · ELT_*',
+    descCamada: 'Eletivas semestrais · 1º semestre = TECART (6º/7º) · 2º semestre = IA (8º/9º · nome a definir)',
+    badge: '1 ativo · 1 planejado',
+    expandido: false,
+    projetos: [
+      {
+        codigo: 'ELT_TECART', nome: 'Eletiva TECART (1º sem · 6º+7º)',
+        desc: '⭐ Tecnologia + Arte · vídeos · redações narrativas · teatro caixa de sapato com cabeças intercambiáveis (ideia G fundida com H)',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_ELT_TECART', d: 'Agente do projeto' },
+          { n: '01=Escopo_Eletiva', d: 'Conteúdo geral · objetivos · cronograma' },
+          { n: '02=Cards_Aulas_TECART', d: 'Cards das aulas (paleta + tipologia)' },
+          { n: '03=Registros_Aulas_TECART', d: 'Resumos pós-aula' },
+          { n: '04=Producoes_Estudantes', d: '⭐ Vídeos · redações narrativas · teatro caixa de sapato · perfis 3D' },
+          { n: '05=Sites_HTML_TECART', d: '🔗 vínculo SITE_ · HTMLs específicos da eletiva' },
+          { n: '06=Avaliação_TECART', d: 'Avaliação da eletiva' }
+        ]
+      },
+      {
+        codigo: 'ELT_IA', nome: 'Eletiva IA (2º sem · 8º+9º · nome a definir)',
+        desc: 'Eletiva 2º semestre · IA · profissões · pesquisa · vídeos · pacote a adquirir início do mês',
+        status: 'planned',
+        chats: [
+          { n: '00=Assistente_ELT_IA', d: 'Agente do projeto · nome final pendente' },
+          { n: '01=Escopo_Eletiva_IA', d: 'Conteúdo geral · IA · futuro' },
+          { n: '02=Profissoes_Salarios_Pesquisa', d: 'Pesquisa Insta + sites' },
+          { n: '03=Videos_Replicar_Edicao', d: 'Edição básica · replicação' },
+          { n: '04=Cards_Aulas_IA', d: 'Cards' },
+          { n: '05=Registros_Aulas_IA', d: 'Resumos' },
+          { n: '06=Sites_HTML_IA', d: '🔗 vínculo SITE_' },
+          { n: '07=Avaliação_IA', d: 'Avaliação' }
+        ]
+      }
+    ]
+  },
+
+  // ===== CAMADA TUT_ =====
+  {
+    camada: 'tut',
+    titulo: '🔴 CAMADA TUTORIA · TUT_* (transversal)',
+    descCamada: 'Tutoria coletiva (segunda 9ª) + tutoria individual (quinta + sexta 9ª) · atende todos os componentes',
+    badge: '1 projeto',
+    expandido: false,
+    projetos: [
+      {
+        codigo: 'TUT_Tutoria', nome: 'Tutoria (coletiva + individual)',
+        desc: 'Coletiva: segunda 9ª aula · Individual: quinta + sexta 9ª aula · transversal a TC/RB/ELT',
+        status: 'running',
+        chats: [
+          { n: '00=Assistente_TUT', d: 'Agente do projeto' },
+          { n: '01=Macro_Submicro_Competências', d: 'Espelho operacional do CO_N0.06' },
+          { n: '02=Tutoria_Coletiva_Calendário', d: 'Segunda 9ª aula · planejamento sessões' },
+          { n: '03=Tutoria_Individual_Calendário', d: 'Quinta + sexta 9ª aula' },
+          { n: '04=Kahoots_Dinâmicas', d: 'Banco de ações para coletiva' },
+          { n: '05=Tutorandos_Acompanhamento', d: 'Por estudante tutorando' },
+          { n: '06=Registros_Tutoria_2B', d: 'Resumos das sessões 2º bim' },
+          { n: '07=PEI_Articulação', d: '⭐ Conexão com PEI_01.2 (Promoção do Protagonismo Juvenil)' },
+          { n: '08=Sites_HTML_Tutoria', d: '🔗 vínculo SITE_ · dinâmicas digitais' }
+        ]
+      }
+    ]
+  },
+
+  // ===== CAMADA SITE_ =====
+  {
+    camada: 'site',
+    titulo: '💗 CAMADA SAÍDAS · SITE_* (governança técnica de HTMLs)',
+    descCamada: '⭐ Governança técnica de TODOS os sites/HTMLs gerados nos projetos operacionais (TC/RB/ELT/TUT/AVA) · padrões + biblioteca + hub central',
+    badge: '1 projeto · técnico',
+    expandido: true,
+    projetos: [
+      {
+        codigo: 'SITE_Plataforma', nome: 'SITE Plataforma (biblioteca técnica)',
+        desc: '⭐ Define padrões reutilizáveis · cada projeto operacional aplica esses padrões nos seus chats Sites_HTML_*',
+        status: 'planned',
+        chats: [
+          { n: '00=Assistente_SITE', d: 'Agente do projeto · governança das saídas' },
+          { n: '01=Arquitetura_Geral', d: 'Firebase/Supabase · hospedagem · CDN' },
+          { n: '02=Padrão_Auth_Estudante', d: 'Login estudante (nome+série) · sem senha' },
+          { n: '03=Padrão_Auth_Admin_Professor', d: '⭐ Senha admin · acesso às respostas dos estudantes' },
+          { n: '04=Padrão_Coleta_Respostas', d: 'Estrutura de dados · exportação CSV/JSON · dashboards' },
+          { n: '05=Padrão_Visual_Cards_Estudante', d: 'Cores roxo→marrom · tipografia · modo claro/escuro' },
+          { n: '06=Padrão_Adaptativo_Recuperação', d: '⭐ Fluxo nome+série → nível NAV.04 (QPA-E)' },
+          { n: '07=Padrão_Julgamento_HomeOffice', d: '⭐ Ideia E · julgamento virtual silencioso' },
+          { n: '08=Componentes_Reutilizáveis', d: 'Botões · forms · timer · ranking · multicamadas 2.5D (ideia H)' },
+          { n: '09=Hub_Index_Sites_Criados', d: '⭐ Lista mestra de TODOS os sites gerados nos projetos' },
+          { n: '10=MVP_Protótipos_Testes', d: 'Versões em teste' },
+          { n: '11=Versões_Deploy_Histórico', d: 'Changelog técnico' }
+        ]
+      }
+    ]
+  },
+
+  // ===== CAMADA MESTRE =====
+  {
+    camada: 'mestre',
+    titulo: '🟣 COSTURA · CHAT-MESTRE',
+    descCamada: 'Visão integrada · captação de ideias · distribuição para chats especializados · validação humana',
+    badge: 'sequencial',
+    expandido: true,
+    projetos: [
+      { codigo: 'CHAT-MESTRE_000', nome: 'Encerrado/compactado', desc: 'CLD-001 a CLD-320 (arquivado)', status: 'done', chats: [{ n: 'Arquivado', d: 'Histórico preservado em TXTs' }] },
+      { codigo: 'CHAT-MESTRE_001', nome: '⭐ ATUAL · em curso', desc: 'CLD-001 a CLD-075+ · este chat', status: 'running', chats: [{ n: 'Em curso', d: 'Geração V2+V4 hoje · ideias A–H capturadas · próximo: V3 com URLs' }] },
+      { codigo: 'CHAT-MESTRE_002+', nome: 'Próximos (continuidade)', desc: 'Será criado quando CLD-100 se aproximar', status: 'planned', chats: [{ n: 'A criar', d: 'Comando de abertura preparado próximo de CLD-095' }] }
+    ]
+  }
+];
+
+// Helper functions para reduzir repetição
+function tcAulasChats(ano, bim, destaque9_2B) {
+  const chats = [
+    { n: '00=Assistente_Aulas', d: 'Agente do projeto' },
+    { n: '01=Mapa_Bimestre', d: 'Escopo/Hab/Descritor do bimestre' },
+    { n: '02=Plano_Aula', d: 'Planos detalhados das aulas' },
+    { n: '03=Catálogo_Unidades_Alura', d: 'Lista das unidades Alura do bimestre' },
+
+    // Quinzena 1 (aulas U1_A1 a U1_A4)
+    { n: `04=TC_ADE_${ano}_${bim}_Q1`, d: 'ADE Q1 · fonte · 8 questões NAV.05 · 2 por aula · comentários NAV.04 em blocos' },
+    { n: `05=TC_ADE_${ano}_${bim}_Q1_HTML`, d: 'ADE Q1 · HTML acessível · Web Speech API · janela aplicação embutida' },
+    { n: `06=TC_PAC_${ano}_${bim}_Q1`, d: 'PAC Q1 · plano + estratégia + avaliação · selecionado conforme erro da ADE Q1' },
+    { n: '07=Aula_U1_A1', d: 'Aula 1 da Unidade 1 · cards roxo→marrom' },
+    { n: '08=Gabarito_Aula_U1_A1', d: 'Gabarito Aula U1_A1 · fonte · resposta + comentários NAV.04' },
+    { n: '09=Gabarito_Aula_U1_A1_HTML', d: 'Gabarito U1_A1 · HTML acessível · blocos essencial/complementar' },
+    { n: '10=Aula_U1_A2', d: 'Aula 2 da Unidade 1' },
+    { n: '11=Gabarito_Aula_U1_A2', d: 'Gabarito Aula U1_A2 · fonte' },
+    { n: '12=Gabarito_Aula_U1_A2_HTML', d: 'Gabarito U1_A2 · HTML acessível' },
+    { n: '13=Aula_U1_A3', d: 'Aula 3 da Unidade 1' },
+    { n: '14=Gabarito_Aula_U1_A3', d: 'Gabarito Aula U1_A3 · fonte' },
+    { n: '15=Gabarito_Aula_U1_A3_HTML', d: 'Gabarito U1_A3 · HTML acessível' },
+    { n: '16=Aula_U1_A4', d: 'Aula 4 da Unidade 1' },
+    { n: '17=Gabarito_Aula_U1_A4', d: 'Gabarito Aula U1_A4 · fonte' },
+    { n: '18=Gabarito_Aula_U1_A4_HTML', d: 'Gabarito U1_A4 · HTML acessível' },
+
+    // Quinzena 2 (aulas U1_A5 a U1_A8)
+    { n: `19=TC_ADE_${ano}_${bim}_Q2`, d: 'ADE Q2 · fonte' },
+    { n: `20=TC_ADE_${ano}_${bim}_Q2_HTML`, d: 'ADE Q2 · HTML acessível' },
+    { n: `21=TC_PAC_${ano}_${bim}_Q2`, d: 'PAC Q2 · selecionado conforme erro da ADE Q2' },
+    { n: '22=Aula_U1_A5', d: 'Aula 5 da Unidade 1' },
+    { n: '23=Gabarito_Aula_U1_A5', d: 'Gabarito Aula U1_A5 · fonte' },
+    { n: '24=Gabarito_Aula_U1_A5_HTML', d: 'Gabarito U1_A5 · HTML acessível' },
+    { n: '25=Aula_U1_A6', d: 'Aula 6 da Unidade 1' },
+    { n: '26=Gabarito_Aula_U1_A6', d: 'Gabarito Aula U1_A6 · fonte' },
+    { n: '27=Gabarito_Aula_U1_A6_HTML', d: 'Gabarito U1_A6 · HTML acessível' },
+    { n: '28=Aula_U1_A7', d: 'Aula 7 da Unidade 1' },
+    { n: '29=Gabarito_Aula_U1_A7', d: 'Gabarito Aula U1_A7 · fonte' },
+    { n: '30=Gabarito_Aula_U1_A7_HTML', d: 'Gabarito U1_A7 · HTML acessível' },
+    { n: '31=Aula_U1_A8', d: 'Aula 8 da Unidade 1' },
+    { n: '32=Gabarito_Aula_U1_A8', d: 'Gabarito Aula U1_A8 · fonte' },
+    { n: '33=Gabarito_Aula_U1_A8_HTML', d: 'Gabarito U1_A8 · HTML acessível' },
+
+    // [meio-bim · AAIM 1 acontece em TC_AVA_*B]
+
+    // Quinzena 3 (aulas U2_A1 a U2_A4)
+    { n: `34=TC_ADE_${ano}_${bim}_Q3`, d: 'ADE Q3 · fonte' },
+    { n: `35=TC_ADE_${ano}_${bim}_Q3_HTML`, d: 'ADE Q3 · HTML acessível' },
+    { n: `36=TC_PAC_${ano}_${bim}_Q3`, d: 'PAC Q3 · selecionado conforme erro da ADE Q3' },
+    { n: '37=Aula_U2_A1', d: 'Aula 1 da Unidade 2' },
+    { n: '38=Gabarito_Aula_U2_A1', d: 'Gabarito Aula U2_A1 · fonte' },
+    { n: '39=Gabarito_Aula_U2_A1_HTML', d: 'Gabarito U2_A1 · HTML acessível' },
+    { n: '40=Aula_U2_A2', d: 'Aula 2 da Unidade 2' },
+    { n: '41=Gabarito_Aula_U2_A2', d: 'Gabarito Aula U2_A2 · fonte' },
+    { n: '42=Gabarito_Aula_U2_A2_HTML', d: 'Gabarito U2_A2 · HTML acessível' },
+    { n: '43=Aula_U2_A3', d: 'Aula 3 da Unidade 2' },
+    { n: '44=Gabarito_Aula_U2_A3', d: 'Gabarito Aula U2_A3 · fonte' },
+    { n: '45=Gabarito_Aula_U2_A3_HTML', d: 'Gabarito U2_A3 · HTML acessível' },
+    { n: '46=Aula_U2_A4', d: 'Aula 4 da Unidade 2' },
+    { n: '47=Gabarito_Aula_U2_A4', d: 'Gabarito Aula U2_A4 · fonte' },
+    { n: '48=Gabarito_Aula_U2_A4_HTML', d: 'Gabarito U2_A4 · HTML acessível' },
+
+    // Quinzena 4 (aulas U2_A5 a U2_A8)
+    { n: `49=TC_ADE_${ano}_${bim}_Q4`, d: 'ADE Q4 · fonte' },
+    { n: `50=TC_ADE_${ano}_${bim}_Q4_HTML`, d: 'ADE Q4 · HTML acessível' },
+    { n: `51=TC_PAC_${ano}_${bim}_Q4`, d: 'PAC Q4 · selecionado conforme erro da ADE Q4' },
+    { n: '52=Aula_U2_A5', d: 'Aula 5 da Unidade 2' },
+    { n: '53=Gabarito_Aula_U2_A5', d: 'Gabarito Aula U2_A5 · fonte' },
+    { n: '54=Gabarito_Aula_U2_A5_HTML', d: 'Gabarito U2_A5 · HTML acessível' },
+    { n: '55=Aula_U2_A6', d: 'Aula 6 da Unidade 2' },
+    { n: '56=Gabarito_Aula_U2_A6', d: 'Gabarito Aula U2_A6 · fonte' },
+    { n: '57=Gabarito_Aula_U2_A6_HTML', d: 'Gabarito U2_A6 · HTML acessível' },
+    { n: '58=Aula_U2_A7', d: 'Aula 7 da Unidade 2' },
+    { n: '59=Gabarito_Aula_U2_A7', d: 'Gabarito Aula U2_A7 · fonte' },
+    { n: '60=Gabarito_Aula_U2_A7_HTML', d: 'Gabarito U2_A7 · HTML acessível' },
+    { n: '61=Aula_U2_A8', d: 'Aula 8 da Unidade 2' },
+    { n: '62=Gabarito_Aula_U2_A8', d: 'Gabarito Aula U2_A8 · fonte' },
+    { n: '63=Gabarito_Aula_U2_A8_HTML', d: 'Gabarito U2_A8 · HTML acessível' },
+
+    // [bim · AAIM 2 acontece em TC_AVA_*B]
+
+    // Reforço bimestral
+    { n: `64=TC_REF_${ano}_${bim}`, d: 'Reforço bim · fonte · disparado por AAIM/Prova Paulista · banco de casos' },
+    { n: `65=TC_REF_${ano}_${bim}_HTML`, d: 'Reforço bim · HTML acessível' },
+
+    // Materiais transversais
+    { n: '66=Glossários_Bimestre', d: 'Mini-glossários das aulas (alimentam NAVs)' },
+    { n: '67=Registros_Bimestre', d: 'Resumos pós-aula (alimenta escopo anual)' },
+    { n: '68=Prompts_HTML_TipoE_F', d: '🔗 vínculo SITE_ · HTMLs dirigidos para "Faça como eu fiz" e "Desafio"' },
+    { n: '69=Sites_HTML_Aulas', d: '🔗 vínculo SITE_ · HTMLs próprios das aulas' }
+  ];
+  if (destaque9_2B) {
+    chats.push({ n: '70=Julgamento_Matlock_Falas', d: '⭐ Ideia A refinada · falas personalizadas por estudante (perfil)' });
+    chats.push({ n: '71=Infograficos_Evidencias', d: '⭐ Ideias D/F · infográficos como prova/evidência no julgamento' });
+  }
+  return chats;
+}
+
+function rbAulasChats(bim) {
+  return [
+    { n: '00=Assistente_RB_Aulas', d: 'Agente do projeto' },
+    { n: '01=Mapa_Bimestre_RB', d: 'Escopo Robótica do bimestre' },
+    { n: '02=Plano_Aula_RB', d: 'Planos detalhados Robótica' },
+
+    // Quinzena 1
+    { n: `03=RB_ADE_6_${bim}_Q1`, d: 'ADE Q1 · fonte · 8 questões NAV.05 · contexto Microbit/Robótica' },
+    { n: `04=RB_ADE_6_${bim}_Q1_HTML`, d: 'ADE Q1 · HTML acessível' },
+    { n: `05=RB_PAC_6_${bim}_Q1`, d: 'PAC Q1 · selecionado conforme erro da ADE Q1' },
+    { n: '06=PXT_Q1_S1', d: 'PXT semana 1 da Q1 · perguntas + projeto Microbit' },
+    { n: '07=PXT_Q1_S2', d: 'PXT semana 2 da Q1 · perguntas + projeto Microbit' },
+
+    // Quinzena 2
+    { n: `08=RB_ADE_6_${bim}_Q2`, d: 'ADE Q2 · fonte' },
+    { n: `09=RB_ADE_6_${bim}_Q2_HTML`, d: 'ADE Q2 · HTML acessível' },
+    { n: `10=RB_PAC_6_${bim}_Q2`, d: 'PAC Q2 · selecionado conforme erro da ADE Q2' },
+    { n: '11=PXT_Q2_S1', d: 'PXT semana 1 da Q2' },
+    { n: '12=PXT_Q2_S2', d: 'PXT semana 2 da Q2' },
+
+    // [meio-bim · AAIM 1 em RB_AVA_*B]
+
+    // Quinzena 3
+    { n: `13=RB_ADE_6_${bim}_Q3`, d: 'ADE Q3 · fonte' },
+    { n: `14=RB_ADE_6_${bim}_Q3_HTML`, d: 'ADE Q3 · HTML acessível' },
+    { n: `15=RB_PAC_6_${bim}_Q3`, d: 'PAC Q3 · selecionado conforme erro da ADE Q3' },
+    { n: '16=PXT_Q3_S1', d: 'PXT semana 1 da Q3' },
+    { n: '17=PXT_Q3_S2', d: 'PXT semana 2 da Q3' },
+
+    // Quinzena 4
+    { n: `18=RB_ADE_6_${bim}_Q4`, d: 'ADE Q4 · fonte' },
+    { n: `19=RB_ADE_6_${bim}_Q4_HTML`, d: 'ADE Q4 · HTML acessível' },
+    { n: `20=RB_PAC_6_${bim}_Q4`, d: 'PAC Q4 · selecionado conforme erro da ADE Q4' },
+    { n: '21=PXT_Q4_S1', d: 'PXT semana 1 da Q4' },
+    { n: '22=PXT_Q4_S2', d: 'PXT semana 2 da Q4' },
+
+    // [bim · AAIM 2 em RB_AVA_*B]
+
+    // Reforço bimestral
+    { n: `23=RB_REF_6_${bim}`, d: 'Reforço bim · disparado por AAIM/Prova Paulista' },
+    { n: `24=RB_REF_6_${bim}_HTML`, d: 'Reforço bim · HTML acessível' },
+
+    // Materiais transversais
+    { n: '25=Glossários_RB', d: 'Glossários Robótica' },
+    { n: '26=Registros_RB', d: 'Resumos pós-aula Robótica' },
+    { n: '27=Prompts_HTML_RB', d: '🔗 vínculo SITE_' },
+    { n: '28=Sites_HTML_RB', d: '🔗 vínculo SITE_' }
+  ];
+}
+
+// ============== RENDER ==============
+const mapa = document.getElementById('mapa');
+
+function renderChats(chats, projCode) {
+  return chats.map(c => {
+    const isDestaque = (c.n.includes('⭐') || c.n.includes('⚠️') || c.d.includes('⭐') || c.d.includes('⚠️'));
+    const chatKey = `${projCode}__${c.n}`;
+    return `<div class="chat ${isDestaque?'destaque':''}" data-chat-key="${chatKey}">
+      <div class="chat-nome">${c.n}<button class="chat-copy" data-copy="${c.n} — ${escapeHtml(c.d)}">📋</button></div>
+      <div class="chat-desc">${c.d}</div>
+      <div class="chat-url-row" style="margin-top:6px;display:flex;gap:4px;align-items:center;">
+        <input type="url" class="chat-url" data-key="${chatKey}" placeholder="cole URL do chat..." style="flex:1;padding:5px 8px;font-size:15px;background:var(--bg-2);color:var(--text);border:1px solid var(--border);border-radius:4px;">
+        <a class="chat-link-btn" data-key="${chatKey}" target="_blank" rel="noopener" title="Abrir chat" style="padding:4px 8px;background:var(--bg-2);border:1px solid var(--border);border-radius:4px;text-decoration:none;color:var(--text-faint);font-size:16px;">🔗</a>
+        <select class="chat-status" data-key="${chatKey}" title="Status do chat" style="padding:4px;font-size:15px;background:var(--bg-2);color:var(--text);border:1px solid var(--border);border-radius:4px;">
+          <option value="empty">⚫</option>
+          <option value="active">🟡</option>
+          <option value="done">🟢</option>
+          <option value="alert">⚠️</option>
+        </select>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function escapeHtml(s) { return s.replace(/"/g, '&quot;'); }
+
+dados.forEach(camada => {
+  const div = document.createElement('div');
+  div.className = `camada ${camada.camada}`;
+  div.dataset.camadaName = camada.camada;
+  div.innerHTML = `
+    <div class="camada-header">
+      <span class="dot"></span>
+      <h2>${camada.titulo}</h2>
+      <span class="badge">${camada.badge}</span>
+    </div>
+    <div class="camada-desc">${camada.descCamada}</div>
+    <div class="projetos"></div>
+  `;
+  const cont = div.querySelector('.projetos');
+  camada.projetos.forEach(proj => {
+    const p = document.createElement('div');
+    p.className = 'projeto';
+    p.dataset.code = proj.codigo;
+    p.dataset.search = (proj.codigo + ' ' + proj.nome + ' ' + proj.desc + ' ' + proj.chats.map(c=>c.n+' '+c.d).join(' ')).toLowerCase();
+    p.innerHTML = `
+      <div class="projeto-codigo">
+        <span class="status ${proj.status}"></span>${proj.codigo}
+        <button class="copy-btn" data-copy="${proj.codigo} — ${escapeHtml(proj.nome)} — ${escapeHtml(proj.desc)}">📋 desc</button>
+      </div>
+      <div class="projeto-nome">${proj.nome}</div>
+      <div class="projeto-desc">${proj.desc}</div>
+      <div class="projeto-url-row" style="margin-top:6px;display:flex;gap:4px;align-items:center;">
+        <input type="url" class="proj-url" data-key="${proj.codigo}" placeholder="cole URL do projeto claude.ai..." style="flex:1;padding:5px 8px;font-size:15px;background:var(--bg-2);color:var(--text);border:1px solid var(--border);border-radius:4px;">
+        <a class="proj-link-btn" data-key="${proj.codigo}" target="_blank" rel="noopener" title="Abrir projeto" style="padding:3px 8px;background:var(--bg-2);border:1px solid var(--border);border-radius:4px;text-decoration:none;color:var(--text-faint);">🔗</a>
+      </div>
+      <div class="projeto-meta">${proj.chats.length} chats · clique para ver</div>
+      <div class="chats" style="display:none">${renderChats(proj.chats, proj.codigo)}</div>
+    `;
+    if (camada.expandido) {
+      p.classList.add('expandido');
+      p.querySelector('.chats').style.display = 'grid';
+    }
+    p.addEventListener('click', (e) => {
+      if (e.target.matches('button')) return;
+      const chats = p.querySelector('.chats');
+      const aberto = chats.style.display !== 'none';
+      chats.style.display = aberto ? 'none' : 'grid';
+      p.classList.toggle('expandido', !aberto);
+    });
+    cont.appendChild(p);
+  });
+  mapa.appendChild(div);
+});
+
+// ============== CLIPBOARD ==============
+const toast = document.getElementById('toast');
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1400);
+}
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-copy]');
+  if (!btn) return;
+  e.stopPropagation();
+  navigator.clipboard.writeText(btn.dataset.copy).then(() => showToast('📋 Copiado!'));
+});
+
+// ============== TEMA ==============
+const themeBtn = document.getElementById('theme-toggle');
+function applyTheme(t) {
+  document.documentElement.dataset.theme = t;
+  try { localStorage.setItem('mapa_theme', t); } catch(e){}
+}
+const saved = (() => { try { return localStorage.getItem('mapa_theme'); } catch(e){ return null; } })();
+if (saved) applyTheme(saved);
+themeBtn.addEventListener('click', () => {
+  const cur = document.documentElement.dataset.theme;
+  applyTheme(cur === 'dark' ? 'light' : 'dark');
+});
+
+// ============== EXPAND/COLLAPSE ALL ==============
+document.getElementById('expand-all').addEventListener('click', () => {
+  document.querySelectorAll('.projeto').forEach(p => {
+    p.classList.add('expandido');
+    p.querySelector('.chats').style.display = 'grid';
+  });
+});
+document.getElementById('collapse-all').addEventListener('click', () => {
+  document.querySelectorAll('.projeto').forEach(p => {
+    p.classList.remove('expandido');
+    p.querySelector('.chats').style.display = 'none';
+  });
+});
+
+// ============== BUSCA ==============
+const search = document.getElementById('search');
+search.addEventListener('input', () => {
+  const q = search.value.trim().toLowerCase();
+  if (!q) {
+    search.classList.remove('has-match');
+    document.querySelectorAll('.projeto').forEach(p => {
+      p.classList.remove('hidden');
+      p.classList.remove('match-search');
+    });
+    document.querySelectorAll('.camada').forEach(c => c.classList.remove('hidden'));
+    return;
+  }
+  let matchCount = 0;
+  document.querySelectorAll('.camada').forEach(camada => {
+    let camadaTemMatch = false;
+    camada.querySelectorAll('.projeto').forEach(p => {
+      if (p.dataset.search.includes(q)) {
+        p.classList.remove('hidden');
+        p.classList.add('match-search', 'expandido');
+        p.querySelector('.chats').style.display = 'grid';
+        camadaTemMatch = true;
+        matchCount++;
+      } else {
+        p.classList.add('hidden');
+        p.classList.remove('match-search');
+      }
+    });
+    camada.classList.toggle('hidden', !camadaTemMatch);
+  });
+  search.classList.toggle('has-match', matchCount > 0);
+});
+
+// ============== V5: URLs + STATUS + LOCALSTORAGE ==============
+const STORAGE_KEY = 'mapa_v5_data';
+
+function loadV5Data() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : { projetos: {}, chats: {}, status: {} };
+  } catch(e) { return { projetos: {}, chats: {}, status: {} }; }
+}
+
+function saveV5Data(data) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e){}
+}
+
+let v5data = loadV5Data();
+
+// Aplicar URLs e status salvos aos campos ao carregar
+function applyV5State() {
+  document.querySelectorAll('.proj-url').forEach(input => {
+    const key = input.dataset.key;
+    const url = v5data.projetos[key] || '';
+    input.value = url;
+    const link = document.querySelector(`.proj-link-btn[data-key="${key}"]`);
+    if (link) {
+      if (url) { link.href = url; link.style.color = 'var(--link)'; }
+      else { link.removeAttribute('href'); link.style.color = 'var(--text-faint)'; }
+    }
+  });
+  document.querySelectorAll('.chat-url').forEach(input => {
+    const key = input.dataset.key;
+    const url = v5data.chats[key] || '';
+    input.value = url;
+    const link = document.querySelector(`.chat-link-btn[data-key="${key}"]`);
+    if (link) {
+      if (url) { link.href = url; link.style.color = 'var(--link)'; }
+      else { link.removeAttribute('href'); link.style.color = 'var(--text-faint)'; }
+    }
+  });
+  document.querySelectorAll('.chat-status').forEach(sel => {
+    const key = sel.dataset.key;
+    sel.value = v5data.status[key] || (v5data.chats[key] ? 'active' : 'empty');
+  });
+  updateProgress();
+}
+
+function updateProgress() {
+  const projTotal = document.querySelectorAll('.proj-url').length;
+  const projWithUrl = Object.values(v5data.projetos).filter(u => u).length;
+  const chatWithUrl = Object.values(v5data.chats).filter(u => u).length;
+  document.getElementById('proj-count').textContent = `${projWithUrl}/${projTotal}`;
+  document.getElementById('chat-count').textContent = chatWithUrl;
+}
+
+// Salvar URL do projeto
+document.addEventListener('input', (e) => {
+  if (e.target.classList.contains('proj-url')) {
+    const key = e.target.dataset.key;
+    v5data.projetos[key] = e.target.value.trim();
+    saveV5Data(v5data);
+    const link = document.querySelector(`.proj-link-btn[data-key="${key}"]`);
+    if (link) {
+      if (v5data.projetos[key]) { link.href = v5data.projetos[key]; link.style.color = 'var(--link)'; }
+      else { link.removeAttribute('href'); link.style.color = 'var(--text-faint)'; }
+    }
+    updateProgress();
+  }
+  if (e.target.classList.contains('chat-url')) {
+    const key = e.target.dataset.key;
+    v5data.chats[key] = e.target.value.trim();
+    if (v5data.chats[key] && (!v5data.status[key] || v5data.status[key] === 'empty')) {
+      v5data.status[key] = 'active';
+      const sel = document.querySelector(`.chat-status[data-key="${key}"]`);
+      if (sel) sel.value = 'active';
+    }
+    saveV5Data(v5data);
+    const link = document.querySelector(`.chat-link-btn[data-key="${key}"]`);
+    if (link) {
+      if (v5data.chats[key]) { link.href = v5data.chats[key]; link.style.color = 'var(--link)'; }
+      else { link.removeAttribute('href'); link.style.color = 'var(--text-faint)'; }
+    }
+    updateProgress();
+  }
+});
+
+// Mudança de status
+document.addEventListener('change', (e) => {
+  if (e.target.classList.contains('chat-status')) {
+    const key = e.target.dataset.key;
+    v5data.status[key] = e.target.value;
+    saveV5Data(v5data);
+  }
+});
+
+// ============== V5: EXPORTAR / IMPORTAR JSON ==============
+document.getElementById('export-urls').addEventListener('click', () => {
+  const json = JSON.stringify(v5data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const ts = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `mapa_v5_urls_${ts}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('💾 JSON exportado!');
+});
+
+document.getElementById('import-urls').addEventListener('click', () => {
+  document.getElementById('import-file').click();
+});
+
+document.getElementById('import-file').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const imported = JSON.parse(ev.target.result);
+      if (!confirm('⚠️ Importar substitui URLs atuais. Continuar?')) return;
+      v5data = {
+        projetos: imported.projetos || {},
+        chats: imported.chats || {},
+        status: imported.status || {}
+      };
+      saveV5Data(v5data);
+      applyV5State();
+      showToast('📂 Importado com sucesso!');
+    } catch(err) {
+      alert('Erro ao importar JSON: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+// ============== V5: FILTROS DE STATUS ==============
+let currentFilter = 'all';
+document.querySelectorAll('.btn-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentFilter = btn.dataset.filter;
+    document.querySelectorAll('.btn-filter').forEach(b => b.style.fontWeight = '');
+    btn.style.fontWeight = 'bold';
+    applyFilter();
+  });
+});
+
+function applyFilter() {
+  if (currentFilter === 'all') {
+    document.querySelectorAll('.chat').forEach(c => c.style.display = '');
+    document.querySelectorAll('.projeto').forEach(p => p.classList.remove('filter-hidden'));
+    return;
+  }
+  document.querySelectorAll('.chat').forEach(c => {
+    const key = c.dataset.chatKey;
+    const status = v5data.status[key] || (v5data.chats[key] ? 'active' : 'empty');
+    c.style.display = (status === currentFilter) ? '' : 'none';
+  });
+  document.querySelectorAll('.projeto').forEach(p => {
+    const visibleChats = p.querySelectorAll('.chat:not([style*="display: none"])').length;
+    p.classList.toggle('filter-hidden', visibleChats === 0);
+  });
+}
+
+// Aplicar estado inicial
+applyV5State();
+</script>
+
+
+</body>
+</html>
