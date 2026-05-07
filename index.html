@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mapa V6 — CHAT-MESTRE_002 — Estrutura PEI + URLs + Janelas + Formação</title>
+<title>Mapa V7 — CHAT-MESTRE_003 — Estrutura PEI + URLs + Niv/Rec + Janelas + Formação</title>
 <style>
   :root[data-theme="dark"] {
     --bg: #0e0e14;
@@ -303,6 +303,25 @@
     position: relative;
   }
   .chat.destaque { border-left-color: var(--accent); color: var(--text); }
+  /* V7 · separadores visuais por bim */
+  .bim-sep {
+    grid-column: 1 / -1;
+    margin: 10px 0 4px;
+    padding: 6px 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    background: var(--bg-2);
+    border-left: 3px solid var(--accent);
+    border-radius: 3px;
+    letter-spacing: 0.02em;
+    font-weight: 500;
+  }
+  .bim-sep.bim-anual { border-left-color: var(--layer-co); }
+  .bim-sep.bim-1b { border-left-color: var(--layer-tc); }
+  .bim-sep.bim-2b { border-left-color: var(--layer-rb); }
+  .bim-sep.bim-3b { border-left-color: var(--layer-elt); }
+  .bim-sep.bim-4b { border-left-color: var(--layer-tut); }
   .chat-nome {
     display: flex;
     align-items: center;
@@ -431,8 +450,8 @@
 <body>
 
 <div class="topbar">
-  <h1>MAPA V6 — CHAT-MESTRE_002
-    <small>Estrutura PEI + URLs + Janelas + Formação · 38 projetos · 1º semestre 2026</small>
+  <h1>MAPA V7 — CHAT-MESTRE_003
+    <small>Estrutura PEI + URLs + Niv/Rec + Janelas + Formação · 42 projetos · 1º semestre 2026</small>
   </h1>
   <div class="topbar-actions">
     <input type="search" class="search" id="search" placeholder="🔍 Buscar projeto/chat...">
@@ -736,7 +755,7 @@ const dados = [
     camada: 'tc',
     titulo: '🟢 CAMADA TECNOLOGIA · TC_*',
     descCamada: 'Operacional do componente Tecnologia · fatiado por ano + bimestre (1º semestre = 8 projetos de aulas + 2 de avaliações + 1 de relatórios)',
-    badge: '12 projetos · 1º semestre',
+    badge: '14 projetos · 1º semestre',
     expandido: false,
     projetos: [
       { codigo: 'TC_AUL_6_1B', nome: 'Aulas 6º · 1º bim', desc: '6º ano · cards · aulas · gabaritos · registros · prompts HTML', status: 'running', chats: tcAulasChats('6', '1B') },
@@ -746,7 +765,7 @@ const dados = [
       { codigo: 'TC_AUL_8_1B', nome: 'Aulas 8º · 1º bim', desc: '8º ano · 1º bim', status: 'running', chats: tcAulasChats('8', '1B') },
       { codigo: 'TC_AUL_8_2B', nome: 'Aulas 8º · 2º bim', desc: '8º ano · 2º bim em curso', status: 'running', chats: tcAulasChats('8', '2B') },
       { codigo: 'TC_AUL_9_1B', nome: 'Aulas 9º · 1º bim', desc: '9º ano · 1º bim', status: 'running', chats: tcAulasChats('9', '1B') },
-      { codigo: 'TC_AUL_9_2B', nome: 'Aulas 9º · 2º bim · ⭐ Educação Midiática parte 2 · Julgamento Matlock', desc: '9º ano · 2º bim · concentração das ideias A/D/E/F (julgamento, infográficos)', status: 'running', chats: tcAulasChats('9', '2B', true) },
+      { codigo: 'TC_AUL_9_2B', nome: 'Aulas 9º · 2º bim · Educação Midiática parte 2', desc: '9º ano · 2º bim · 1ª unidade concentra ideias A/D/E/F (Julgamento Matlock + infográficos)', status: 'running', chats: tcAulasChats('9', '2B', true) },
       {
         codigo: 'TC_AVA_1B', nome: 'Avaliações · 1º bim',
         desc: 'AAIMs · NAV.04 QPA-E (V.03.01 pendente para 6º/7º/9º) · QBA Alura · SAAIB · descontrução · recuperação',
@@ -766,7 +785,9 @@ const dados = [
           { n: '11=Devolutiva_QBA_Descontrução', d: '⭐ Aula de devolutiva com descontrução das 10 questões (Polya/Bloom/5W1H)' },
           { n: '12=SAAIB_1B', d: 'SAAIB aplicada · 9ºC com 2ª chamada concluída em 28/04' },
           { n: '13=Recuperação_1B', d: 'Recuperação de aprendizagem' },
-          { n: '14=Gabaritos_Forms_1B', d: 'Gabaritos atualizados Alura desatualizados' }
+          { n: '14=Gabaritos_Forms_1B', d: 'Gabaritos atualizados Alura desatualizados' },
+          { n: '15=Banco_Questoes_AAIMs', d: '⭐ V7 · Banco passivo de QBAs · indexação por descritor BNCC · referência 6º ao 9º' },
+          { n: '16=Desconstrucao_QBA', d: '⭐ V7 · Aplicação 5W1H+Polya nas 3 questões mais erradas + alunos < nota 6' }
         ]
       },
       {
@@ -793,8 +814,10 @@ const dados = [
           { n: '00=Assistente_TC_REL', d: 'Agente do projeto · padrão INNER e farol' },
           { n: '01=Modelo_INNER_Master', d: 'Template-mestre dos relatórios' },
           { n: '02=Farol_BI_7Cores_SEDUC', d: 'Padrão farol pedagógico (marrom → roxo)' },
+          { n: '02A=Exemplos_Relatorios', d: '⭐ V7 · Biblioteca de exemplos prontos (modelo INNER 6ºA · referência visual)' },
           { n: '03=Rel_1AAIM_Geral', d: 'Consolidado 1ª AAIM todas turmas' },
           { n: '04=Rel_2AAIM_Geral', d: 'Consolidado 2ª AAIM todas turmas' },
+          { n: '04A=Rel_SAAIB_Geral', d: '⭐ V7 · Consolidado SAAIB todas turmas (incl. 2ª chamada 9ºC 28/04)' },
           { n: '05=Rel_INNER_6ºA', d: 'Por turma · individualizado' },
           { n: '06=Rel_INNER_6ºB', d: 'Idem' },
           { n: '07=Rel_INNER_7ºA', d: 'Idem' },
@@ -844,6 +867,42 @@ const dados = [
           { n: '28=Consolidado_1B', d: 'Visão geral 1º bim · todas as turmas' },
           { n: '29=Consolidado_2B', d: 'Visão geral 2º bim · todas as turmas' }
         ]
+      },
+      {
+        codigo: 'TC_NIV', nome: '⭐ V7 · Nivelamento · Tecnologia',
+        desc: 'Material de nivelamento alimentado por relatórios ADEs/PAC · aplicação orgânica nas aulas',
+        status: 'planned',
+        chats: [
+          { n: '00=Assistente_TC_NIV', d: '⭐ V7 · Agente do projeto · orquestra material de nivelamento' },
+          { n: '01=Modelo_Nivelamento_Master', d: '⭐ V7 · Template de material de nivelamento' },
+          { n: '02=NAVs_Nivelamento_Modelo', d: '⭐ V7 · Estrutura de NAVs para nivelamento (níveis N.1 a N.5 + desafios)' },
+          { n: '03=Niv_1B_6º', d: '⭐ V7 · Nivelamento 6º · 1º bim (recebe ADEs/PAC do 6º)' },
+          { n: '04=Niv_1B_7º', d: '⭐ V7 · Nivelamento 7º · 1º bim' },
+          { n: '05=Niv_1B_8º', d: '⭐ V7 · Nivelamento 8º · 1º bim' },
+          { n: '06=Niv_1B_9º', d: '⭐ V7 · Nivelamento 9º · 1º bim' },
+          { n: '07=Niv_2B_6º', d: '⭐ V7 · Nivelamento 6º · 2º bim' },
+          { n: '08=Niv_2B_7º', d: '⭐ V7 · Nivelamento 7º · 2º bim' },
+          { n: '09=Niv_2B_8º', d: '⭐ V7 · Nivelamento 8º · 2º bim' },
+          { n: '10=Niv_2B_9º', d: '⭐ V7 · Nivelamento 9º · 2º bim' }
+        ]
+      },
+      {
+        codigo: 'TC_REC', nome: '⭐ V7 · Recuperação · Tecnologia',
+        desc: 'Material de recuperação alimentado por relatórios AAIMs/SAAIB · aplicação orgânica nas aulas',
+        status: 'planned',
+        chats: [
+          { n: '00=Assistente_TC_REC', d: '⭐ V7 · Agente do projeto · orquestra material de recuperação' },
+          { n: '01=Modelo_Recuperacao_Master', d: '⭐ V7 · Template de material de recuperação' },
+          { n: '02=NAVs_Recuperacao_5W1H_Polya', d: '⭐ V7 · Descontrução 5W1H+Polya para recuperação' },
+          { n: '03=Rec_1B_6º', d: '⭐ V7 · Recuperação 6º · 1º bim (recebe AAIMs+SAAIB do 6º)' },
+          { n: '04=Rec_1B_7º', d: '⭐ V7 · Recuperação 7º · 1º bim' },
+          { n: '05=Rec_1B_8º', d: '⭐ V7 · Recuperação 8º · 1º bim' },
+          { n: '06=Rec_1B_9º', d: '⭐ V7 · Recuperação 9º · 1º bim' },
+          { n: '07=Rec_2B_6º', d: '⭐ V7 · Recuperação 6º · 2º bim' },
+          { n: '08=Rec_2B_7º', d: '⭐ V7 · Recuperação 7º · 2º bim' },
+          { n: '09=Rec_2B_8º', d: '⭐ V7 · Recuperação 8º · 2º bim' },
+          { n: '10=Rec_2B_9º', d: '⭐ V7 · Recuperação 9º · 2º bim' }
+        ]
       }
     ]
   },
@@ -853,7 +912,7 @@ const dados = [
     camada: 'rb',
     titulo: '🟡 CAMADA ROBÓTICA · RB_* (só 6º ano)',
     descCamada: 'Operacional do componente Robótica · só 6ºA e 6ºB · estrutura espelhada de TC',
-    badge: '6 projetos · 1º semestre',
+    badge: '8 projetos · 1º semestre',
     expandido: false,
     projetos: [
       { codigo: 'RB_AUL_6_1B', nome: 'RB Aulas 6º · 1º bim', desc: 'Aulas Robótica 6º · 1º bim', status: 'running', chats: rbAulasChats('1B') },
@@ -864,7 +923,9 @@ const dados = [
         { n: '02=AAIM_RB_1B_6º', d: 'AAIM Robótica' },
         { n: '03=NAV04_RB_1B_6º', d: 'NAV.04 Robótica' },
         { n: '04=NAV05_RB_1B_QBA', d: 'QBA Robótica (se aplicável)' },
-        { n: '05=Recuperação_RB_1B', d: 'Recuperação' }
+        { n: '05=Recuperação_RB_1B', d: 'Recuperação' },
+        { n: '06=Banco_Questoes_RB', d: '⭐ V7 · Banco de questões internas RB (NAV.05 construídas, sem QBA Alura)' },
+        { n: '07=Desconstrucao_QBA_RB', d: '⭐ V7 · 5W1H+Polya nas questões críticas RB (standby até aplicação 2º bim)' }
       ] },
       { codigo: 'RB_AVA_2B', nome: 'RB Avaliações · 2º bim', desc: 'Estrutura espelhada · em curso', status: 'running', chats: [
         { n: '00=Assistente_RB_AVA_2B', d: 'Agente do projeto' },
@@ -878,8 +939,10 @@ const dados = [
         { n: '00=Assistente_RB_REL', d: 'Agente do projeto' },
         { n: '01=Modelo_INNER_RB', d: 'Template' },
         { n: '02=Rel_1AAIM_RB', d: 'Consolidado 1ª AAIM' },
+        { n: '02A=Exemplos_Relatorios_RB', d: '⭐ V7 · Biblioteca de exemplos RB · referência visual' },
         { n: '03=Rel_2AAIM_RB', d: 'Consolidado 2ª AAIM' },
         { n: '04=Rel_INNER_RB_6ºA', d: 'Individualizado' },
+        { n: '04A=Rel_SAAIB_RB', d: '⭐ V7 · Consolidado SAAIB Robótica (standby até aplicação 2º bim)' },
         { n: '05=Rel_INNER_RB_6ºB', d: 'Individualizado' }
       ] },
       { codigo: 'RB_FEC', nome: 'Fechamento de Bimestre · Robótica',
@@ -899,6 +962,30 @@ const dados = [
           { n: '10=Fec_RB_6B_2B', d: 'Fechamento RB 6ºB · 2º bim' },
           { n: '11=Consolidado_RB_1B', d: 'Visão geral 1º bim · 6ºA + 6ºB' },
           { n: '12=Consolidado_RB_2B', d: 'Visão geral 2º bim · 6ºA + 6ºB' }
+        ]
+      },
+      {
+        codigo: 'RB_NIV', nome: '⭐ V7 · Nivelamento · Robótica',
+        desc: 'Material de nivelamento Robótica · alimentado por ADEs/PAC · aplicação orgânica',
+        status: 'planned',
+        chats: [
+          { n: '00=Assistente_RB_NIV', d: '⭐ V7 · Agente do projeto · nivelamento RB' },
+          { n: '01=Modelo_Nivelamento_RB', d: '⭐ V7 · Template de material RB' },
+          { n: '02=NAVs_Nivelamento_RB_Modelo', d: '⭐ V7 · Estrutura de NAVs RB para nivelamento' },
+          { n: '03=Niv_RB_1B_6º', d: '⭐ V7 · Nivelamento RB 6º · 1º bim' },
+          { n: '04=Niv_RB_2B_6º', d: '⭐ V7 · Nivelamento RB 6º · 2º bim' }
+        ]
+      },
+      {
+        codigo: 'RB_REC', nome: '⭐ V7 · Recuperação · Robótica',
+        desc: 'Material de recuperação Robótica · alimentado por AAIMs/SAAIB · aplicação orgânica',
+        status: 'planned',
+        chats: [
+          { n: '00=Assistente_RB_REC', d: '⭐ V7 · Agente do projeto · recuperação RB' },
+          { n: '01=Modelo_Recuperacao_RB', d: '⭐ V7 · Template de material RB' },
+          { n: '02=NAVs_Recuperacao_RB_5W1H_Polya', d: '⭐ V7 · Descontrução 5W1H+Polya RB' },
+          { n: '03=Rec_RB_1B_6º', d: '⭐ V7 · Recuperação RB 6º · 1º bim (standby até aplicação)' },
+          { n: '04=Rec_RB_2B_6º', d: '⭐ V7 · Recuperação RB 6º · 2º bim' }
         ]
       }
     ]
@@ -1206,7 +1293,12 @@ function rbAulasChats(bim) {
     { n: '25=Glossários_RB', d: 'Glossários Robótica' },
     { n: '26=Registros_RB', d: 'Resumos pós-aula Robótica' },
     { n: '27=Prompts_HTML_RB', d: '🔗 vínculo SITE_' },
-    { n: '28=Sites_HTML_RB', d: '🔗 vínculo SITE_' }
+    { n: '28=Sites_HTML_RB', d: '🔗 vínculo SITE_' },
+    // V7 · chats criados pelo lote CM-003 (compatibilidade)
+    { n: `29=Assistente_RB_AUL_6_${bim}`, d: '⭐ V7 · Assistente específico do bim (criado pelo lote · CM-003)' },
+    { n: `30=Mapa_Bimestre_RB_6_${bim}`, d: '⭐ V7 · Mapa específico do bim (criado pelo lote)' },
+    { n: `31=Plano_Aula_RB_6_${bim}`, d: '⭐ V7 · Plano específico do bim (criado pelo lote)' },
+    { n: '32=Catalogo_PXT_RB_6', d: '⭐ V7 · Catálogo de PXTs Robótica 6º (criado pelo lote)' }
   ];
 }
 
@@ -1214,7 +1306,22 @@ function rbAulasChats(bim) {
 const mapa = document.getElementById('mapa');
 
 function renderChats(chats, projCode) {
-  return chats.map(c => {
+  // V7 · agrupador por bim · detecta _1B, _2B, _3B, _4B no nome do chat
+  // chats sem bim ficam em "Anual / N.0"
+  const isProjetoBim = /_[1-4]B$/.test(projCode); // ex: TC_AUL_6_1B, TC_AVA_2B
+  const grupos = { anual: [], '1B': [], '2B': [], '3B': [], '4B': [] };
+  chats.forEach(c => {
+    if (isProjetoBim) {
+      // projeto já é por bim · não precisa subdividir
+      grupos.anual.push(c);
+      return;
+    }
+    const m = c.n.match(/_([1-4]B)(?:_|$)/);
+    if (m) grupos[m[1]].push(c);
+    else grupos.anual.push(c);
+  });
+
+  const renderChat = (c) => {
     const isDestaque = (c.n.includes('⭐') || c.n.includes('⚠️') || c.d.includes('⭐') || c.d.includes('⚠️'));
     const chatKey = `${projCode}__${c.n}`;
     return `<div class="chat ${isDestaque?'destaque':''}" data-chat-key="${chatKey}">
@@ -1231,7 +1338,26 @@ function renderChats(chats, projCode) {
         </select>
       </div>
     </div>`;
-  }).join('');
+  };
+
+  // Se projeto já é por bim ou todos chats são anuais · render direto sem separadores
+  if (isProjetoBim || (grupos['1B'].length === 0 && grupos['2B'].length === 0 && grupos['3B'].length === 0 && grupos['4B'].length === 0)) {
+    return chats.map(renderChat).join('');
+  }
+
+  // Render com separadores
+  let html = '';
+  if (grupos.anual.length > 0) {
+    html += `<div class="bim-sep bim-anual">─── 📅 Anual / N.0 (governança) ───</div>`;
+    html += grupos.anual.map(renderChat).join('');
+  }
+  ['1B','2B','3B','4B'].forEach(b => {
+    if (grupos[b].length > 0) {
+      html += `<div class="bim-sep bim-${b.toLowerCase()}">─── 🗓️ ${b} (${b==='1B'?'1º':b==='2B'?'2º':b==='3B'?'3º':'4º'} bimestre) ───</div>`;
+      html += grupos[b].map(renderChat).join('');
+    }
+  });
+  return html;
 }
 
 function escapeHtml(s) { return s.replace(/"/g, '&quot;'); }
@@ -1360,12 +1486,59 @@ search.addEventListener('input', () => {
 });
 
 // ============== V5: URLs + STATUS + LOCALSTORAGE ==============
-const STORAGE_KEY = 'mapa_v5_data';
+const STORAGE_KEY_V7 = 'mapa_v7_data';
+const STORAGE_KEY_V6 = 'mapa_v5_data'; // legado · migração automática
+const STORAGE_KEY = STORAGE_KEY_V7;
+
+// Bootstrap das 12 URLs resgatadas em CLD-063 (CHAT-MESTRE-003)
+const BOOTSTRAP_URLS_V7 = {
+  'TC_REL__02A=Exemplos_Relatorios': 'https://claude.ai/chat/dbbdb6f5-cff0-4be9-b50f-12167343bbb3',
+  'TC_REL__04A=Rel_SAAIB_Geral': 'https://claude.ai/chat/42f55263-f6f2-48e2-b0a1-3830a96f0d03',
+  'RB_REL__02A=Exemplos_Relatorios_RB': 'https://claude.ai/chat/67c0ef39-3635-48d4-bcc3-2e6a38a1e253',
+  'RB_REL__04A=Rel_SAAIB_RB': 'https://claude.ai/chat/755e47f4-d35d-42fc-99ac-03bbfc848eaf',
+  'TC_AVA_1B__15=Banco_Questoes_AAIMs': 'https://claude.ai/chat/75f58dd9-c7fb-4188-a95c-2dd09d84dd3a',
+  'TC_AVA_1B__16=Desconstrucao_QBA': 'https://claude.ai/chat/482302ea-8389-4af6-b6ab-dc5bb7975bb9',
+  'RB_AVA_1B__06=Banco_Questoes_RB': 'https://claude.ai/chat/522959ff-6d14-47a9-ac77-84b38b5f15fc',
+  'RB_AVA_1B__07=Desconstrucao_QBA_RB': 'https://claude.ai/chat/ae37f549-2fc3-442e-a458-3afa672c2050',
+  'RB_AUL_6_2B__29=Assistente_RB_AUL_6_2B': 'https://claude.ai/chat/13bdacc8-e876-4a30-b3b4-3a599023d787',
+  'RB_AUL_6_2B__30=Mapa_Bimestre_RB_6_2B': 'https://claude.ai/chat/bc5a14b9-0efc-48ca-b8b2-230464da171c',
+  'RB_AUL_6_2B__31=Plano_Aula_RB_6_2B': 'https://claude.ai/chat/c5de6361-f83e-4964-826e-58f60183d67c',
+  'RB_AUL_6_2B__32=Catalogo_PXT_RB_6': 'https://claude.ai/chat/ea03d428-209c-4fe0-85c3-6bcd4e714cd7'
+};
 
 function loadV5Data() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : { projetos: {}, chats: {}, status: {} };
+    // Tenta V7 primeiro
+    let raw = localStorage.getItem(STORAGE_KEY_V7);
+    let migratedFromV6 = false;
+    if (!raw) {
+      // Migração automática do V6 (chave 'mapa_v5_data') se existir
+      raw = localStorage.getItem(STORAGE_KEY_V6);
+      if (raw) {
+        migratedFromV6 = true;
+        localStorage.setItem(STORAGE_KEY_V7, raw);
+      }
+    }
+    let data = raw ? JSON.parse(raw) : { projetos: {}, chats: {}, status: {} };
+    if (!data.projetos) data.projetos = {};
+    if (!data.chats) data.chats = {};
+    if (!data.status) data.status = {};
+
+    // Bootstrap · adiciona URLs resgatadas só se ainda não existirem
+    let bootstrapAdded = 0;
+    for (const [key, url] of Object.entries(BOOTSTRAP_URLS_V7)) {
+      if (!data.chats[key]) {
+        data.chats[key] = url;
+        if (!data.status[key]) data.status[key] = 'done';
+        bootstrapAdded++;
+      }
+    }
+    if (migratedFromV6 || bootstrapAdded > 0) {
+      localStorage.setItem(STORAGE_KEY_V7, JSON.stringify(data));
+      if (migratedFromV6) console.log('[V7] Migrado do V6 com sucesso');
+      if (bootstrapAdded > 0) console.log(`[V7] ${bootstrapAdded} URLs adicionadas via bootstrap`);
+    }
+    return data;
   } catch(e) { return { projetos: {}, chats: {}, status: {} }; }
 }
 
@@ -1466,7 +1639,7 @@ document.getElementById('export-urls').addEventListener('click', () => {
   const a = document.createElement('a');
   const ts = new Date().toISOString().slice(0,10);
   a.href = url;
-  a.download = `mapa_v5_urls_${ts}.json`;
+  a.download = `mapa_v7_urls_${ts}.json`;
   a.click();
   URL.revokeObjectURL(url);
   showToast('💾 JSON exportado!');
