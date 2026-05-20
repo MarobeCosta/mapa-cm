@@ -1,9 +1,31 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<!--
+  ================================================================
+  MAPA V.08.30 — CHAT-MESTRE_003
+  Sucessor visual de V.08.20 (botão "N chats" + shimmer + dark refinado)
+  Mudanças V.08.20 → V.08.30 (refatoração visual média):
+    · Botão "N chats · clique aqui" agora visual:
+      - Pílula (border-radius 999px) cor ESCURA SATURADA da camada
+      - Borda branca 1.5px + sombra externa
+      - Texto branco (escuro em RB amarelo)
+      - Triângulo ▶ + chevron ▾
+      - Shimmer contínuo 3s (faixa de luz oblíqua passando)
+      - Hover escurece o botão para feedback visual
+    · DARK REFINADO: cada camada ganha versão escurecida da cor
+      no tema escuro (verde-noite, azul-noite, etc.)
+      - Texto branco translúcido (rgba 0.92) sobre fundo escurecido
+      - Mantém identidade visual de camada também no dark
+      - Preserva conforto visual do modo escuro
+  Preservado: HTML, JS, 42 projetos, toggle dark/light, filtros,
+  expandir/recolher, 9 camadas, busca, status
+  Versão: V.08.30 (Y · refatoração visual média)
+  ================================================================
+-->
+<html lang="pt-BR" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mapa V7 — CHAT-MESTRE_003 — Estrutura PEI + URLs + Niv/Rec + Janelas + Formação</title>
+<title>Mapa V.08.30 — CHAT-MESTRE_003 — Estrutura PEI + URLs + Niv/Rec + Janelas + Formação</title>
 <style>
   :root[data-theme="dark"] {
     --bg: #0e0e14;
@@ -19,17 +41,21 @@
     --link: #67c3ff;
   }
   :root[data-theme="light"] {
-    --bg: #faf9f6;
-    --bg-2: #f0eee9;
+    --bg: #f4f7fb;
+    --bg-2: #e9f0f8;
     --panel: #ffffff;
-    --panel-2: #f5f3ee;
-    --border: #d8d4ca;
-    --border-soft: #e6e3da;
-    --text: #1a1a24;
-    --text-dim: #5a5a6c;
-    --text-faint: #8e8ea0;
-    --accent: #c47b00;
-    --link: #0a6cb9;
+    --panel-2: #f5f8fc;
+    --border: #d1dbe8;
+    --border-soft: #e3ebf3;
+    --text: #1a2433;
+    --text-dim: #4a5668;
+    --text-faint: #7a8699;
+    --accent: #2563eb;
+    --link: #1d4ed8;
+    --shadow-soft: 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-hover: 0 6px 18px rgba(37,99,235,0.12);
+    --gradient-nav: linear-gradient(135deg, #eaf2fb 0%, #ffffff 100%);
+    --gradient-card-top: linear-gradient(180deg, rgba(37,99,235,0.04) 0%, rgba(255,255,255,0) 60%);
   }
 
   /* Cores hierárquicas das camadas (farol INNER invertido: marrom=topo) */
@@ -43,6 +69,61 @@
     --layer-for: #ff69b4;      /* ROSA CHOQUE — Formação Continuada */
     --layer-site: #d63384;     /* PINK — Saídas (governança de saídas) */
     --layer-mestre: #6f42c1;   /* ROXO — Costura */
+
+    /* V.08.10 · Fundo pastel por camada (saturação ~30%) */
+    --layer-co-soft: #F5EFEA;
+    --layer-pei-soft: #E3F2FD;
+    --layer-tc-soft: #E8F5E9;
+    --layer-rb-soft: #FFFDE7;
+    --layer-elt-soft: #FFF3E0;
+    --layer-tut-soft: #FFEBEE;
+    --layer-for-soft: #FCE4EC;
+    --layer-site-soft: #F8BBD0;
+    --layer-mestre-soft: #EDE7F6;
+
+    /* V.08.10 · Sombra colorida por camada (hover) */
+    --layer-co-shadow: rgba(141,110,99,0.35);
+    --layer-pei-shadow: rgba(74,144,226,0.35);
+    --layer-tc-shadow: rgba(46,204,113,0.35);
+    --layer-rb-shadow: rgba(241,196,15,0.40);
+    --layer-elt-shadow: rgba(230,126,34,0.35);
+    --layer-tut-shadow: rgba(231,76,60,0.35);
+    --layer-for-shadow: rgba(255,105,180,0.35);
+    --layer-site-shadow: rgba(214,51,132,0.40);
+    --layer-mestre-shadow: rgba(111,66,193,0.35);
+
+    /* V.08.20 · Texto sobre fundo sólido da camada (contraste otimizado) */
+    --layer-co-text: #FFFFFF;
+    --layer-pei-text: #FFFFFF;
+    --layer-tc-text: #FFFFFF;
+    --layer-rb-text: #2D2D2D;       /* amarelo precisa texto escuro */
+    --layer-elt-text: #FFFFFF;
+    --layer-tut-text: #FFFFFF;
+    --layer-for-text: #FFFFFF;
+    --layer-site-text: #FFFFFF;
+    --layer-mestre-text: #FFFFFF;
+
+    /* V.08.30 · Cor ESCURA SATURADA do botão "N chats" (família da camada) */
+    --layer-co-btn: #3A1F18;
+    --layer-pei-btn: #0B2F66;
+    --layer-tc-btn: #0E5E2C;
+    --layer-rb-btn: #7A5A00;
+    --layer-elt-btn: #7A2D00;
+    --layer-tut-btn: #5A0B07;
+    --layer-for-btn: #7A1A4A;
+    --layer-site-btn: #4F0729;
+    --layer-mestre-btn: #2A1166;
+
+    /* V.08.30 · Cor ESCURA do card no DARK refinado (versão "noite") */
+    --layer-co-dark: #4a3833;
+    --layer-pei-dark: #1e3a5f;
+    --layer-tc-dark: #1a5d3a;
+    --layer-rb-dark: #7a6309;
+    --layer-elt-dark: #7a3f0d;
+    --layer-tut-dark: #7a2820;
+    --layer-for-dark: #7a3358;
+    --layer-site-dark: #6e1a44;
+    --layer-mestre-dark: #3a2273;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -168,6 +249,14 @@
     border-radius: 12px;
     overflow: hidden;
   }
+  /* V.08.20 · camada externa estilo "card-grande-com-cards-dentro" */
+  :root[data-theme="light"] .camada {
+    background: var(--proj-soft, var(--panel-2));
+    border: 1px solid color-mix(in srgb, var(--proj-strong, var(--border)) 25%, var(--border));
+    border-left: 6px solid var(--proj-strong, var(--accent));
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
   .camada-header {
     padding: 13px 18px;
     display: flex;
@@ -175,6 +264,10 @@
     gap: 12px;
     border-bottom: 1px solid var(--border);
     background: var(--panel-2);
+  }
+  :root[data-theme="light"] .camada-header {
+    background: transparent;
+    border-bottom: 1px solid color-mix(in srgb, var(--proj-strong, var(--border)) 20%, var(--border-soft));
   }
   .camada-header .dot {
     width: 14px;
@@ -211,15 +304,178 @@
   .projeto {
     background: var(--panel-2);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 14px;
+    border-radius: 12px;
+    padding: 16px 16px 14px;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: all 0.2s ease;
     position: relative;
+    overflow: hidden;
+  }
+  /* V.08.20 · cor sólida saturada da camada + texto branco/escuro contrastante */
+  :root[data-theme="light"] .projeto {
+    background: var(--proj-strong, var(--accent));
+    color: var(--proj-text, #FFFFFF);
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    line-height: 1.5;
   }
   .projeto:hover {
     border-color: var(--accent);
     transform: translateY(-1px);
+  }
+  :root[data-theme="light"] .projeto:hover {
+    box-shadow: 0 6px 16px var(--proj-shadow, rgba(0,0,0,0.12));
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+  }
+
+  /* V.08.20 · Forçar contraste em elementos internos do projeto (light) */
+  :root[data-theme="light"] .projeto .projeto-codigo,
+  :root[data-theme="light"] .projeto .projeto-nome,
+  :root[data-theme="light"] .projeto .projeto-desc,
+  :root[data-theme="light"] .projeto .chat-link,
+  :root[data-theme="light"] .projeto .chat-desc {
+    color: var(--proj-text, #FFFFFF);
+  }
+  :root[data-theme="light"] .projeto .projeto-desc,
+  :root[data-theme="light"] .projeto .chat-desc {
+    opacity: 0.92;
+  }
+  :root[data-theme="light"] .projeto .chat-link {
+    text-decoration: underline;
+    text-decoration-color: rgba(255,255,255,0.5);
+  }
+  /* Camadas com texto escuro (amarelo) precisam underline escuro */
+  :root[data-theme="light"] .projeto.layer-rb .chat-link {
+    text-decoration-color: rgba(0,0,0,0.4);
+  }
+  /* Botão copiar sobre fundo colorido */
+  :root[data-theme="light"] .projeto .copy-btn {
+    background: rgba(255,255,255,0.18);
+    color: var(--proj-text, #FFFFFF);
+    border: 1px solid rgba(255,255,255,0.25);
+  }
+  :root[data-theme="light"] .projeto.layer-rb .copy-btn {
+    background: rgba(0,0,0,0.08);
+    color: #2D2D2D;
+    border: 1px solid rgba(0,0,0,0.15);
+  }
+  :root[data-theme="light"] .projeto .copy-btn:hover {
+    background: rgba(255,255,255,0.30);
+  }
+  :root[data-theme="light"] .projeto.layer-rb .copy-btn:hover {
+    background: rgba(0,0,0,0.15);
+  }
+  /* Status dot mais visível sobre fundo colorido */
+  :root[data-theme="light"] .projeto .status {
+    border: 1.5px solid rgba(255,255,255,0.7);
+  }
+  :root[data-theme="light"] .projeto.layer-rb .status {
+    border: 1.5px solid rgba(0,0,0,0.4);
+  }
+  /* Esconder emoji decorativo V.08.10 no light (V.08.20 não usa) */
+  :root[data-theme="light"] .projeto-emoji-camada { display: none; }
+
+  /* V.08.10 · variáveis por camada (atribuídas via classe .layer-xxx) */
+  .layer-co     { --proj-soft: var(--layer-co-soft);     --proj-strong: var(--layer-co);     --proj-shadow: var(--layer-co-shadow);     --proj-text: var(--layer-co-text);     --proj-btn: var(--layer-co-btn);     --proj-dark: var(--layer-co-dark); }
+  .layer-pei    { --proj-soft: var(--layer-pei-soft);    --proj-strong: var(--layer-pei);    --proj-shadow: var(--layer-pei-shadow);    --proj-text: var(--layer-pei-text);    --proj-btn: var(--layer-pei-btn);    --proj-dark: var(--layer-pei-dark); }
+  .layer-tc     { --proj-soft: var(--layer-tc-soft);     --proj-strong: var(--layer-tc);     --proj-shadow: var(--layer-tc-shadow);     --proj-text: var(--layer-tc-text);     --proj-btn: var(--layer-tc-btn);     --proj-dark: var(--layer-tc-dark); }
+  .layer-rb     { --proj-soft: var(--layer-rb-soft);     --proj-strong: var(--layer-rb);     --proj-shadow: var(--layer-rb-shadow);     --proj-text: var(--layer-rb-text);     --proj-btn: var(--layer-rb-btn);     --proj-dark: var(--layer-rb-dark); }
+  .layer-elt    { --proj-soft: var(--layer-elt-soft);    --proj-strong: var(--layer-elt);    --proj-shadow: var(--layer-elt-shadow);    --proj-text: var(--layer-elt-text);    --proj-btn: var(--layer-elt-btn);    --proj-dark: var(--layer-elt-dark); }
+  .layer-tut    { --proj-soft: var(--layer-tut-soft);    --proj-strong: var(--layer-tut);    --proj-shadow: var(--layer-tut-shadow);    --proj-text: var(--layer-tut-text);    --proj-btn: var(--layer-tut-btn);    --proj-dark: var(--layer-tut-dark); }
+  .layer-for    { --proj-soft: var(--layer-for-soft);    --proj-strong: var(--layer-for);    --proj-shadow: var(--layer-for-shadow);    --proj-text: var(--layer-for-text);    --proj-btn: var(--layer-for-btn);    --proj-dark: var(--layer-for-dark); }
+  .layer-site   { --proj-soft: var(--layer-site-soft);   --proj-strong: var(--layer-site);   --proj-shadow: var(--layer-site-shadow);   --proj-text: var(--layer-site-text);   --proj-btn: var(--layer-site-btn);   --proj-dark: var(--layer-site-dark); }
+  .layer-mestre { --proj-soft: var(--layer-mestre-soft); --proj-strong: var(--layer-mestre); --proj-shadow: var(--layer-mestre-shadow); --proj-text: var(--layer-mestre-text); --proj-btn: var(--layer-mestre-btn); --proj-dark: var(--layer-mestre-dark); }
+
+  /* V.08.30 · DARK REFINADO · cor "noite" da camada nos cards .projeto */
+  :root[data-theme="dark"] .projeto {
+    background: var(--proj-dark, var(--panel-2));
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.92);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  }
+  :root[data-theme="dark"] .projeto:hover {
+    filter: brightness(1.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.45);
+  }
+  :root[data-theme="dark"] .projeto .projeto-codigo,
+  :root[data-theme="dark"] .projeto .projeto-nome,
+  :root[data-theme="dark"] .projeto .projeto-desc,
+  :root[data-theme="dark"] .projeto .chat-link,
+  :root[data-theme="dark"] .projeto .chat-desc {
+    color: rgba(255,255,255,0.92);
+  }
+  :root[data-theme="dark"] .projeto .projeto-desc,
+  :root[data-theme="dark"] .projeto .chat-desc {
+    color: rgba(255,255,255,0.72);
+  }
+  /* Botão "N chats" também ativo no dark · versão MAIS escura ainda */
+  :root[data-theme="dark"] .projeto-meta {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,0,0,0.45);
+    color: #FFFFFF;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1.5px solid rgba(255,255,255,0.55);
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.50);
+    white-space: nowrap;
+    margin-top: 8px;
+    transition: background 0.2s ease;
+    width: fit-content;
+  }
+  :root[data-theme="dark"] .projeto-meta:hover {
+    background: rgba(0,0,0,0.65);
+  }
+  :root[data-theme="dark"] .projeto-meta::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(120deg,
+      transparent 20%,
+      rgba(255,255,255,0.30) 50%,
+      transparent 80%);
+    pointer-events: none;
+    animation: meta-shimmer 3s ease-in-out infinite;
+  }
+  /* Status dot + copy-btn + chat-link no dark refinado */
+  :root[data-theme="dark"] .projeto .status {
+    border: 1.5px solid rgba(255,255,255,0.55);
+  }
+  :root[data-theme="dark"] .projeto .copy-btn {
+    background: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.92);
+    border: 1px solid rgba(255,255,255,0.22);
+  }
+  :root[data-theme="dark"] .projeto .copy-btn:hover {
+    background: rgba(255,255,255,0.25);
+  }
+  :root[data-theme="dark"] .projeto .chat-link {
+    text-decoration-color: rgba(255,255,255,0.45);
+  }
+  /* Camada externa no dark · versão escurecida pastel */
+  :root[data-theme="dark"] .camada {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-left: 6px solid var(--proj-strong, var(--accent));
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  }
+  :root[data-theme="dark"] .camada-header {
+    background: transparent;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
   .projeto.expandido {
     grid-column: 1 / -1;
@@ -254,6 +510,61 @@
     display: flex;
     align-items: center;
     gap: 8px;
+  }
+  /* V.08.30 · Transformar .projeto-meta em BOTÃO PÍLULA com shimmer */
+  :root[data-theme="light"] .projeto-meta {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--proj-btn, #1a2433);
+    color: #FFFFFF;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1.5px solid rgba(255,255,255,0.90);
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.28);
+    white-space: nowrap;
+    margin-top: 8px;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+    width: fit-content;
+  }
+  /* Camada amarelo (RB) precisa texto escuro também no botão */
+  :root[data-theme="light"] .projeto.layer-rb .projeto-meta {
+    color: #FFFFFF;
+  }
+  /* Hover · botão escurece mais para feedback visual */
+  :root[data-theme="light"] .projeto-meta:hover {
+    filter: brightness(0.75);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.40);
+  }
+  /* Faixa de brilho oblíqua (shimmer) — loop contínuo 3s */
+  :root[data-theme="light"] .projeto-meta::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(120deg,
+      transparent 20%,
+      rgba(255,255,255,0.45) 50%,
+      transparent 80%);
+    pointer-events: none;
+    animation: meta-shimmer 3s ease-in-out infinite;
+  }
+  @keyframes meta-shimmer {
+    0%       { left: -100%; }
+    60%, 100%{ left: 130%; }
+  }
+  /* Respeito a usuários sensíveis a movimento */
+  @media (prefers-reduced-motion: reduce) {
+    :root[data-theme="light"] .projeto-meta::before {
+      animation: none;
+    }
   }
   .copy-btn {
     background: transparent;
@@ -350,22 +661,31 @@
   /* Cores das camadas no header */
   .camada.co .camada-header .dot { background: var(--layer-co); }
   .camada.co { border-color: rgba(141,110,99,0.3); }
+  :root[data-theme="light"] .camada.co { border-left-color: var(--layer-co); }
   .camada.pei .camada-header .dot { background: var(--layer-pei); }
   .camada.pei { border-color: rgba(74,144,226,0.3); }
+  :root[data-theme="light"] .camada.pei { border-left-color: var(--layer-pei); }
   .camada.tc .camada-header .dot { background: var(--layer-tc); }
   .camada.tc { border-color: rgba(46,204,113,0.3); }
+  :root[data-theme="light"] .camada.tc { border-left-color: var(--layer-tc); }
   .camada.rb .camada-header .dot { background: var(--layer-rb); }
   .camada.rb { border-color: rgba(241,196,15,0.3); }
+  :root[data-theme="light"] .camada.rb { border-left-color: var(--layer-rb); }
   .camada.elt .camada-header .dot { background: var(--layer-elt); }
   .camada.elt { border-color: rgba(230,126,34,0.3); }
+  :root[data-theme="light"] .camada.elt { border-left-color: var(--layer-elt); }
   .camada.tut .camada-header .dot { background: var(--layer-tut); }
   .camada.tut { border-color: rgba(231,76,60,0.3); }
+  :root[data-theme="light"] .camada.tut { border-left-color: var(--layer-tut); }
   .camada.for .camada-header .dot { background: var(--layer-for); }
   .camada.for { border-color: rgba(255,105,180,0.3); }
+  :root[data-theme="light"] .camada.for { border-left-color: var(--layer-for); }
   .camada.site .camada-header .dot { background: var(--layer-site); }
   .camada.site { border-color: rgba(214,51,132,0.3); }
+  :root[data-theme="light"] .camada.site { border-left-color: var(--layer-site); }
   .camada.mestre .camada-header .dot { background: var(--layer-mestre); }
   .camada.mestre { border-color: rgba(111,66,193,0.4); }
+  :root[data-theme="light"] .camada.mestre { border-left-color: var(--layer-mestre); }
 
   /* ============== PAINÉIS ============== */
   .pendencias, .conexoes {
@@ -450,7 +770,7 @@
 <body>
 
 <div class="topbar">
-  <h1>MAPA V7 — CHAT-MESTRE_003
+  <h1>MAPA V.08.30 — CHAT-MESTRE_003
     <small>Estrutura PEI + URLs + Niv/Rec + Janelas + Formação · 42 projetos · 1º semestre 2026</small>
   </h1>
   <div class="topbar-actions">
@@ -554,6 +874,9 @@
 <div class="toast" id="toast">Copiado!</div>
 
 <script>
+// ============== VERSÃO ==============
+const VERSAO = "V.08.30";
+
 // ============== DADOS ==============
 const dados = [
   // ===== CAMADA UNIVERSAL CO_ =====
@@ -1364,7 +1687,7 @@ function escapeHtml(s) { return s.replace(/"/g, '&quot;'); }
 
 dados.forEach(camada => {
   const div = document.createElement('div');
-  div.className = `camada ${camada.camada}`;
+  div.className = `camada ${camada.camada} layer-${camada.camada}`;
   div.dataset.camadaName = camada.camada;
   div.innerHTML = `
     <div class="camada-header">
@@ -1376,12 +1699,15 @@ dados.forEach(camada => {
     <div class="projetos"></div>
   `;
   const cont = div.querySelector('.projetos');
+  // V.08.10 · extrai primeiro emoji do título da camada (suporta emojis compostos / surrogates)
+  const emojiCamada = (camada.titulo.match(/^\s*(\p{Extended_Pictographic}(?:\u200d\p{Extended_Pictographic})*)/u) || [,''])[1];
   camada.projetos.forEach(proj => {
     const p = document.createElement('div');
-    p.className = 'projeto';
+    p.className = `projeto layer-${camada.camada}`;
     p.dataset.code = proj.codigo;
     p.dataset.search = (proj.codigo + ' ' + proj.nome + ' ' + proj.desc + ' ' + proj.chats.map(c=>c.n+' '+c.d).join(' ')).toLowerCase();
     p.innerHTML = `
+      <span class="projeto-emoji-camada" aria-hidden="true">${emojiCamada}</span>
       <div class="projeto-codigo">
         <span class="status ${proj.status}"></span>${proj.codigo}
         <button class="copy-btn" data-copy="${proj.codigo} — ${escapeHtml(proj.nome)} — ${escapeHtml(proj.desc)}">📋 desc</button>
@@ -1392,7 +1718,7 @@ dados.forEach(camada => {
         <input type="url" class="proj-url" data-key="${proj.codigo}" placeholder="cole URL do projeto claude.ai..." style="flex:1;padding:5px 8px;font-size:15px;background:var(--bg-2);color:var(--text);border:1px solid var(--border);border-radius:4px;">
         <a class="proj-link-btn" data-key="${proj.codigo}" target="_blank" rel="noopener" title="Abrir projeto" style="padding:3px 8px;background:var(--bg-2);border:1px solid var(--border);border-radius:4px;text-decoration:none;color:var(--text-faint);">🔗</a>
       </div>
-      <div class="projeto-meta">${proj.chats.length} chats · clique para ver</div>
+      <div class="projeto-meta">▶ ${proj.chats.length} chats · clique aqui ▾</div>
       <div class="chats" style="display:none">${renderChats(proj.chats, proj.codigo)}</div>
     `;
     if (camada.expandido) {
