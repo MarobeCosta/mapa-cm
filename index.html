@@ -1,46 +1,56 @@
 <!DOCTYPE html>
 <!--
   ================================================================
-  MapCM v01.01 — Mapa dos Chats Mestres (CMs)
+  MapCM v01.02 — Mapa dos Chats Mestres (CMs)
   Sucessor do MapCM mental do CM-ROTA-008
 
   Estética idêntica V.08.30 publicada (cards coloridos · botão pílula
   com shimmer · dark refinado · toggle dark/light)
 
-  Origem: CM-MAPA_001 CLD-039/040/041 · gerado em 21/05/2026
-  Especificação técnica: CM-ROTA-008 CLD-148 (reencaminhado em CLD-211)
+  Origem: CM-MAPA_001 CLD-039/040/041/048 · atualizado em 24/05/2026
+  Especificação técnica: CM-ROTA-008 CLD-148 + CM-ROTA_011 CLD-038/047
 
-  Conteúdo: 29 CMs ativos organizados em camadas-classe:
-    · GOV (governança) - 6 CMs
+  Conteúdo: 36 CMs ativos organizados em 10 camadas-classe:
+    · GOV (governança) - 7 CMs                  [+ROTA_012 em v01.02]
     · CRIA (criatividade) - 4 CMs
     · TEC (produção tecnologia) - 6 CMs
     · ROB (produção robótica) - 1 CM
     · HUM/PV/LP (humanas, projeto de vida, língua portuguesa) - 2 CMs
     · MAT/CN (exatas, ciências) - 2 CMs
-    · ESP (especializados novos) - 8 CMs
+    · REL (relatórios) - 3 CMs                   [novo em v01.02]
+    · AVA-PLAN (diagnóstico e plano) - 2 CMs    [novo em v01.02]
+    · ESP (especializados novos) - 9 CMs        [+ATPCA em v01.02]
+    · CROSS V.08.30 (link para projetos pedagógicos)
 
   Cross-reference V.08.30:
     https://marobecosta.github.io/mapa-projetos/
 
+  CHANGELOG v01.01 → v01.02 (Y · adição estrutural · 7 CMs):
+    · +CM-ATPCA_001 (ESP · formação docente ATPC Exatas/Biológicas)
+    · +CM-REL-BI_001 (REL · BI SEDUC · dados brutos antes do INNER)
+    · +CM-REL-AV.ALURA_001 (REL · QBA · análise pós-prova Alura)
+    · +CM-REL-LINK-AL_001 (REL · acompanhamento conclusão Alura)
+    · +CM-ADE_001 (AVA-PLAN · Avaliação Diagnóstica de Entrada)
+    · +CM-PAC_001 (AVA-PLAN · Plano de Análise Cognitivo · ciclo Q1-Q4)
+    · +CM-ROTA_012 (GOV · orquestrador varredura cronológica · sucessor ROTA_011)
+    · Nova camada REL · cor laranja-escuro (#cf6510)
+    · Nova camada AVA-PLAN · cor magenta-pink (#c2185b)
+    · Contagem total atualizada: 29 → 36 CMs ativos
+
   CHANGELOG v01.00 → v01.01 (Z · ajuste pequeno · correção de bugs):
     · BUG · ReferenceError "renderChats is not defined" — corrigido
-      (função renderChats reinserida após remoção indevida durante
-      limpeza dos helpers obsoletos do V.08.30)
-    · MELHORIA · renderChat agora detecta URLs em campo "d:" e
-      renderiza como link clicável direto + botão "🔗 Abrir chat"
-      em vez de input vazio para colar URL (necessário no V.08.30
-      onde URLs eram coladas após renderização, desnecessário no MapCM
-      onde URLs já vêm nos dados)
+    · MELHORIA · renderChat detecta URLs em campo "d:" e renderiza
+      como link clicável direto + botão "🔗 Abrir chat"
     · A versão v01.00 NUNCA foi publicada em produção · descartada
 
-  Versão: v01.01
+  Versão: v01.02
   ================================================================
 -->
 <html lang="pt-BR" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MapCM v01.01 — Mapa dos Chats Mestres — CM-MAPA_001</title>
+<title>MapCM v01.02 — Mapa dos Chats Mestres — CM-MAPA_001</title>
 <style>
   :root[data-theme="dark"] {
     --bg: #0e0e14;
@@ -139,6 +149,23 @@
     --layer-for-dark: #7a3358;
     --layer-site-dark: #6e1a44;
     --layer-mestre-dark: #3a2273;
+
+    /* v01.02 · Cores nativas das 2 novas camadas (REL e AVAPLAN) */
+    /* REL · laranja-escuro queimado (distinto de ELT do V.08.30 que é #e67e22) */
+    --layer-rel: #cf6510;
+    --layer-rel-soft: #FCE7D5;
+    --layer-rel-shadow: rgba(207,101,16,0.35);
+    --layer-rel-text: #FFFFFF;
+    --layer-rel-btn: #6B2D00;
+    --layer-rel-dark: #5a2d05;
+
+    /* AVAPLAN · magenta-pink saturado (distinto de FOR/CRIA que é #ff69b4) */
+    --layer-avaplan: #c2185b;
+    --layer-avaplan-soft: #F8D1E0;
+    --layer-avaplan-shadow: rgba(194,24,91,0.35);
+    --layer-avaplan-text: #FFFFFF;
+    --layer-avaplan-btn: #5C0828;
+    --layer-avaplan-dark: #5e0e2d;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -402,6 +429,9 @@
   .layer-for    { --proj-soft: var(--layer-for-soft);    --proj-strong: var(--layer-for);    --proj-shadow: var(--layer-for-shadow);    --proj-text: var(--layer-for-text);    --proj-btn: var(--layer-for-btn);    --proj-dark: var(--layer-for-dark); }
   .layer-site   { --proj-soft: var(--layer-site-soft);   --proj-strong: var(--layer-site);   --proj-shadow: var(--layer-site-shadow);   --proj-text: var(--layer-site-text);   --proj-btn: var(--layer-site-btn);   --proj-dark: var(--layer-site-dark); }
   .layer-mestre { --proj-soft: var(--layer-mestre-soft); --proj-strong: var(--layer-mestre); --proj-shadow: var(--layer-mestre-shadow); --proj-text: var(--layer-mestre-text); --proj-btn: var(--layer-mestre-btn); --proj-dark: var(--layer-mestre-dark); }
+  /* v01.02 · novas camadas */
+  .layer-rel     { --proj-soft: var(--layer-rel-soft);     --proj-strong: var(--layer-rel);     --proj-shadow: var(--layer-rel-shadow);     --proj-text: var(--layer-rel-text);     --proj-btn: var(--layer-rel-btn);     --proj-dark: var(--layer-rel-dark); }
+  .layer-avaplan { --proj-soft: var(--layer-avaplan-soft); --proj-strong: var(--layer-avaplan); --proj-shadow: var(--layer-avaplan-shadow); --proj-text: var(--layer-avaplan-text); --proj-btn: var(--layer-avaplan-btn); --proj-dark: var(--layer-avaplan-dark); }
 
   /* V.08.30 · DARK REFINADO · cor "noite" da camada nos cards .projeto */
   :root[data-theme="dark"] .projeto {
@@ -785,8 +815,8 @@
 <body>
 
 <div class="topbar">
-  <h1>MapCM v01.01 — Mapa dos Chats Mestres
-    <small>29 CMs ativos · governança · criatividade · produção · especializados · cross V.08.30</small>
+  <h1>MapCM v01.02 — Mapa dos Chats Mestres
+    <small>36 CMs ativos · governança · criatividade · produção · relatórios · diagnóstico · especializados · cross V.08.30</small>
   </h1>
   <div class="topbar-actions">
     <input type="search" class="search" id="search" placeholder="🔍 Buscar projeto/chat...">
@@ -890,20 +920,21 @@
 
 <script>
 // ============== VERSÃO ==============
-const VERSAO = "v01.01";
-const VERSAO_MAPCM = "v01.01";
+const VERSAO = "v01.02";
+const VERSAO_MAPCM = "v01.02";
 
 // ============== DADOS ==============
 const dados = [
-  // ===== GOVERNANÇA (6 CMs) =====
+  // ===== GOVERNANÇA (7 CMs · +ROTA_012 em v01.02) =====
   {
     camada: 'co',
     titulo: '🟤 GOVERNANÇA · Orquestração e estrutura',
-    descCamada: 'Roteamento · estrutura · listas mestre · catálogos · mapas (este chat é o último item)',
-    badge: '6 CMs',
+    descCamada: 'Roteamento · estrutura · listas mestre · catálogos · mapas · varredura cronológica (este chat é o item 7)',
+    badge: '7 CMs',
     expandido: true,
     projetos: [
       { codigo: 'CM-ROTA_009', nome: 'Orquestrador central', desc: 'Roteador puro · recebe assuntos · roteia para CM destino · gera comando copiável', status: 'running', chats: [{ n: 'Abrir CM-ROTA_009', d: 'https://claude.ai/chat/2a2ab546-588e-4b60-b8b6-a43bdbd65efa' }] },
+      { codigo: 'CM-ROTA_012', nome: '⭐ Orquestrador · varredura 20 colunas', desc: 'Sucessor do CM-ROTA_011 · varredura cronológica CM-GRL_000-009 · classificação em 20 colunas · entrega por destinatário', status: 'running', chats: [{ n: 'Abrir CM-ROTA_012', d: 'https://claude.ai/chat/6f0e7444-4cd0-4e51-91a9-4772e5b90a09' }] },
       { codigo: 'CM-ESTR_001', nome: 'Estrutura · LEst', desc: 'Lista estrutural · arquitetura de chats e relações', status: 'running', chats: [{ n: 'Abrir CM-ESTR_001', d: 'https://claude.ai/chat/b74375d7-ed0c-4761-9b9a-11bef907561a' }] },
       { codigo: 'CM-GOV_001', nome: 'Governança · LGov', desc: 'Lista de governança · regras · políticas operacionais', status: 'running', chats: [{ n: 'Abrir CM-GOV_001', d: 'https://claude.ai/chat/31f1a000-6e9d-4f07-a743-8f810916f679' }] },
       { codigo: 'CM-LModAtv_001', nome: 'Lista Modelos de Atividades', desc: 'Catálogo modelos A-P · referência pedagógica', status: 'running', chats: [{ n: 'Abrir CM-LModAtv_001', d: 'https://claude.ai/chat/3b5f31ff-8ee2-434d-93bb-ba0fbac9dd7e' }] },
@@ -982,12 +1013,12 @@ const dados = [
     ]
   },
 
-  // ===== ESPECIALIZADOS NOVOS (8 CMs) =====
+  // ===== ESPECIALIZADOS NOVOS (9 CMs · +ATPCA em v01.02) =====
   {
     camada: 'mestre',
     titulo: '🟣 ESPECIALIZADOS · Materiais e ferramentas novas',
-    descCamada: 'CMs especializados em produtos pedagógicos específicos · transversais aos componentes',
-    badge: '8 CMs',
+    descCamada: 'CMs especializados em produtos pedagógicos específicos · transversais aos componentes · inclui formação docente',
+    badge: '9 CMs',
     expandido: true,
     projetos: [
       { codigo: 'CM-FACA_001', nome: 'Faça como eu fiz · Alura', desc: 'Cards "Faça como eu fiz" · suporte às aulas Alura', status: 'running', chats: [{ n: 'Abrir CM-FACA_001', d: 'https://claude.ai/chat/c2dcfe1f-f4b5-4498-bd20-18a031d9d4dd' }] },
@@ -997,7 +1028,35 @@ const dados = [
       { codigo: 'CM-GUIA_001', nome: 'Guia do Estudante bimestral', desc: 'Guia do Estudante · publicação por bimestre · canal aluno', status: 'running', chats: [{ n: 'Abrir CM-GUIA_001', d: 'https://claude.ai/chat/d1664527-ffd3-40d8-bde4-0b3f902c1d20' }] },
       { codigo: 'CM-PESQ-PROF_001', nome: 'Pesquisas · professor', desc: 'Pesquisas com o corpo docente · feedback institucional', status: 'running', chats: [{ n: 'Abrir CM-PESQ-PROF_001', d: 'https://claude.ai/chat/ca44a802-f6bd-474f-91a9-4ddccd671214' }] },
       { codigo: 'CM-PESQ-EST_001', nome: 'Pesquisas · estudante', desc: 'Pesquisas com estudantes · escuta · indicadores', status: 'running', chats: [{ n: 'Abrir CM-PESQ-EST_001', d: 'https://claude.ai/chat/2127dc22-35b2-4dda-a624-6de6f20f5e0f' }] },
-      { codigo: 'CM-MULT_001', nome: 'Curso Multiplica SP', desc: 'Curso Multiplica SP · formação continuada do professor', status: 'running', chats: [{ n: 'Abrir CM-MULT_001', d: 'https://claude.ai/chat/e5877888-71e8-46ae-be2b-f7f8cc451b97' }] }
+      { codigo: 'CM-MULT_001', nome: 'Curso Multiplica SP', desc: 'Curso Multiplica SP · formação continuada do professor', status: 'running', chats: [{ n: 'Abrir CM-MULT_001', d: 'https://claude.ai/chat/e5877888-71e8-46ae-be2b-f7f8cc451b97' }] },
+      { codigo: 'CM-ATPCA_001', nome: '⭐ ATPC-A · Exatas/Biológicas', desc: 'ATPC · Aulas de Trabalho Pedagógico Coletivo · Área Exatas · MAT/CN/TEC/ROB · quintas 3ª/4ª aula · distinto do ATPC-G', status: 'running', chats: [{ n: 'Abrir CM-ATPCA_001', d: 'https://claude.ai/chat/5fc88401-56c0-4429-8601-bd2605cc8552' }] }
+    ]
+  },
+
+  // ===== RELATÓRIOS (3 CMs · novo em v01.02) =====
+  {
+    camada: 'rel',
+    titulo: '🟠 RELATÓRIOS · Análise de dados pedagógicos',
+    descCamada: 'Relatórios institucionais e pedagógicos · BI SEDUC · QBA Alura · acompanhamento de conclusão · entrada antes do INNER',
+    badge: '3 CMs',
+    expandido: true,
+    projetos: [
+      { codigo: 'CM-REL-BI_001', nome: '⭐ Relatórios BI SEDUC', desc: 'Sistema BI oficial SEDUC · 7 cores · dados brutos das avaliações antes do INNER', status: 'running', chats: [{ n: 'Abrir CM-REL-BI_001', d: 'https://claude.ai/chat/b19600fa-68d1-4035-b89d-6f45d4f067d1' }] },
+      { codigo: 'CM-REL-AV.ALURA_001', nome: '⭐ Relatórios Avaliações Alura · QBA', desc: 'Banco de Avaliações Alura · NAV.05 oficial · análise pós-prova · desconstrução de questões', status: 'running', chats: [{ n: 'Abrir CM-REL-AV.ALURA_001', d: 'https://claude.ai/chat/b08d1cb5-0803-4b78-b351-426ff39b5fc3' }] },
+      { codigo: 'CM-REL-LINK-AL_001', nome: '⭐ Linking Alura · Conclusão', desc: 'Acompanhamento de conclusão Alura · quem fez/não fez · taxa por turma · monitoramento de engajamento', status: 'running', chats: [{ n: 'Abrir CM-REL-LINK-AL_001', d: 'https://claude.ai/chat/da7db689-4937-4892-be62-d83df7e8efd9' }] }
+    ]
+  },
+
+  // ===== AVALIAÇÃO + PLANEJAMENTO (2 CMs · novo em v01.02) =====
+  {
+    camada: 'avaplan',
+    titulo: '🩷 DIAGNÓSTICO + PLANO · Ciclo bimestral',
+    descCamada: 'Avaliação Diagnóstica de Entrada (ADE) seguida do Plano de Análise Cognitivo (PAC) · ciclo quinzenal Q1-Q4 · base para intervenção',
+    badge: '2 CMs',
+    expandido: true,
+    projetos: [
+      { codigo: 'CM-ADE_001', nome: '⭐ Avaliação Diagnóstica de Entrada', desc: 'ADE no início de cada bimestre · mapeamento de pontos de partida · base para PAC', status: 'running', chats: [{ n: 'Abrir CM-ADE_001', d: 'https://claude.ai/chat/eae8c5d2-03ce-4f03-9a38-d91b63138cea' }] },
+      { codigo: 'CM-PAC_001', nome: '⭐ Plano de Análise Cognitivo', desc: 'Planejamento pós-ADE · estratégia + recursos + Bloom + BNCC · ciclo quinzenal Q1-Q4 · 4 PACs por bimestre', status: 'running', chats: [{ n: 'Abrir CM-PAC_001', d: 'https://claude.ai/chat/e1f463bc-6e8b-4321-bbb3-e57682012df5' }] }
     ]
   },
 
