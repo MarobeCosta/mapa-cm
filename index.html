@@ -1,56 +1,63 @@
 <!DOCTYPE html>
 <!--
   ================================================================
-  MapCM v01.02 — Mapa dos Chats Mestres (CMs)
-  Sucessor do MapCM mental do CM-ROTA-008
+  MapCM v02.00 — Mapa dos Chats Mestres (CMs) · V.03.09
+  Paradigma novo: espelha 10 níveis hierárquicos N.00 a N.09
+  com 3 níveis de profundidade em N.02 · N.04 · N.06 · N.07 · N.08
 
-  Estética idêntica V.08.30 publicada (cards coloridos · botão pílula
-  com shimmer · dark refinado · toggle dark/light)
+  Estética idêntica V.08.30 / MapCM v01.02 publicados
+  (cards coloridos · botão pílula com shimmer · dark refinado)
 
-  Origem: CM-MAPA_001 CLD-039/040/041/048 · atualizado em 24/05/2026
-  Especificação técnica: CM-ROTA-008 CLD-148 + CM-ROTA_011 CLD-038/047
+  Origem: N.00.02_CM-MAPA_001 CLD-062 · gerado em 02/06/2026
+  Origem do comando: N.08.04.18_C1-MAPA-D3-TEC_001 CLD-041
+  Fonte de dados: organograma-V0309.md (CLD-039 daquele chat) +
+    V.03.04 do CM-ROTA_012 CLD-197 + V.03.09 do CM-AUDIT_019 CLD-030
 
-  Conteúdo: 36 CMs ativos organizados em 10 camadas-classe:
-    · GOV (governança) - 7 CMs                  [+ROTA_012 em v01.02]
-    · CRIA (criatividade) - 4 CMs
-    · TEC (produção tecnologia) - 6 CMs
-    · ROB (produção robótica) - 1 CM
-    · HUM/PV/LP (humanas, projeto de vida, língua portuguesa) - 2 CMs
-    · MAT/CN (exatas, ciências) - 2 CMs
-    · REL (relatórios) - 3 CMs                   [novo em v01.02]
-    · AVA-PLAN (diagnóstico e plano) - 2 CMs    [novo em v01.02]
-    · ESP (especializados novos) - 9 CMs        [+ATPCA em v01.02]
-    · CROSS V.08.30 (link para projetos pedagógicos)
+  PARADIGMA NOVO:
+    · Camadas agora espelham os 10 níveis estruturais N.00 a N.09
+      (antes: classes operacionais GOV/CRIA/TEC/ROB/etc)
+    · 3 níveis de profundidade renderizados via nested cards em:
+      - N.02 (Repos Dados-Base · prefixo REP-)
+      - N.04 (Planejamento · prefixos GUIA-/PA-/PAC-/PEI-)
+      - N.06 (Repos Por Ano · prefixo REP-)
+      - N.07 (Conteúdo Por Ano · prefixo DINAM-)
+      - N.08 (Renderização HTML · prefixos C1-MAPA-/C2-HUB-)
+    · CM- como prefixo só em N.00 e N.01 (mestres reais)
+    · Demais níveis usam prefixos funcionais (REP-/GUIA-/PA-/NAV/etc)
 
-  Cross-reference V.08.30:
+  STATUS VISUAL POR CM (5 ícones · conforme organograma):
+    ✅ Ativo · 🔄 Renomear · 🟡 A criar · ⚪ Reservado · 🔵 Container
+
+  PENDÊNCIAS ABERTAS (registradas no organograma-V0309.md):
+    1. Slots exatos de B2/B3/D1/D2/DIV/PEI em N.02 — confirmar com
+       CM-AUDIT_019 quando forem criados
+    2. PlayTime (N.05) — nível final pendente do retorno do FORJA
+    3. Escopo Sequência no N.02.07.06 — aguarda registro ROTA/AUDIT
+    4. Vários "🟡 A criar" são slots previstos · não CMs reais ainda
+    5. Refinamento pós-varredura CM-000 a CM-012 pode trazer ajustes
+       (Marcos autorizou prosseguir mesmo sabendo disso)
+
+  CROSS-REFERENCE V.08.30 (mapa de projetos pedagógicos):
     https://marobecosta.github.io/mapa-projetos/
 
-  CHANGELOG v01.01 → v01.02 (Y · adição estrutural · 7 CMs):
-    · +CM-ATPCA_001 (ESP · formação docente ATPC Exatas/Biológicas)
-    · +CM-REL-BI_001 (REL · BI SEDUC · dados brutos antes do INNER)
-    · +CM-REL-AV.ALURA_001 (REL · QBA · análise pós-prova Alura)
-    · +CM-REL-LINK-AL_001 (REL · acompanhamento conclusão Alura)
-    · +CM-ADE_001 (AVA-PLAN · Avaliação Diagnóstica de Entrada)
-    · +CM-PAC_001 (AVA-PLAN · Plano de Análise Cognitivo · ciclo Q1-Q4)
-    · +CM-ROTA_012 (GOV · orquestrador varredura cronológica · sucessor ROTA_011)
-    · Nova camada REL · cor laranja-escuro (#cf6510)
-    · Nova camada AVA-PLAN · cor magenta-pink (#c2185b)
-    · Contagem total atualizada: 29 → 36 CMs ativos
+  CHANGELOG v01.02 → v02.00 (X · paradigma novo):
+    · Estrutura organizadora muda de "classes operacionais" para
+      "10 níveis estruturais N.00 a N.09" (espelha V.03.09)
+    · 3 níveis de profundidade nested em N.02/N.04/N.06/N.07/N.08
+    · Prefixos funcionais aplicados (CM- só em N.00/N.01)
+    · Paleta de cores reorganizada por nível (não mais por classe)
+    · 5 ícones de status visual em cada card
+    · Slots reservados visíveis (transparência arquitetural)
+    · v01.02 e versões anteriores preservadas no histórico do repo
 
-  CHANGELOG v01.00 → v01.01 (Z · ajuste pequeno · correção de bugs):
-    · BUG · ReferenceError "renderChats is not defined" — corrigido
-    · MELHORIA · renderChat detecta URLs em campo "d:" e renderiza
-      como link clicável direto + botão "🔗 Abrir chat"
-    · A versão v01.00 NUNCA foi publicada em produção · descartada
-
-  Versão: v01.02
+  Versão: v02.00
   ================================================================
 -->
 <html lang="pt-BR" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MapCM v01.02 — Mapa dos Chats Mestres — CM-MAPA_001</title>
+<title>MapCM v02.00 — V.03.09 — Mapa dos Chats Mestres — CM-MAPA_001</title>
 <style>
   :root[data-theme="dark"] {
     --bg: #0e0e14;
@@ -166,6 +173,89 @@
     --layer-avaplan-text: #FFFFFF;
     --layer-avaplan-btn: #5C0828;
     --layer-avaplan-dark: #5e0e2d;
+
+    /* v02.00 · Paleta por nível N.00 a N.09 (paradigma V.03.09)
+       Reusa esquema soft/strong/shadow/text/btn/dark do CSS existente */
+
+    /* N.00 · Governança + Estruturação · marrom */
+    --layer-n00: #8d6e63;
+    --layer-n00-soft: #F5EFEA;
+    --layer-n00-shadow: rgba(141,110,99,0.35);
+    --layer-n00-text: #FFFFFF;
+    --layer-n00-btn: #3A1F18;
+    --layer-n00-dark: #4a3833;
+
+    /* N.01 · Geradores + Coordenadores · vermelho */
+    --layer-n01: #e74c3c;
+    --layer-n01-soft: #FFEBEE;
+    --layer-n01-shadow: rgba(231,76,60,0.35);
+    --layer-n01-text: #FFFFFF;
+    --layer-n01-btn: #5A0B07;
+    --layer-n01-dark: #7a2820;
+
+    /* N.02 · Repos Dados-Base · azul (3 níveis) */
+    --layer-n02: #4a90e2;
+    --layer-n02-soft: #E3F2FD;
+    --layer-n02-shadow: rgba(74,144,226,0.35);
+    --layer-n02-text: #FFFFFF;
+    --layer-n02-btn: #0B2F66;
+    --layer-n02-dark: #1e3a5f;
+
+    /* N.03 · Formação EFAPE · roxo */
+    --layer-n03: #6f42c1;
+    --layer-n03-soft: #EDE7F6;
+    --layer-n03-shadow: rgba(111,66,193,0.35);
+    --layer-n03-text: #FFFFFF;
+    --layer-n03-btn: #2A1166;
+    --layer-n03-dark: #3a2273;
+
+    /* N.04 · Planejamento · verde (3 níveis) */
+    --layer-n04: #2ecc71;
+    --layer-n04-soft: #E8F5E9;
+    --layer-n04-shadow: rgba(46,204,113,0.35);
+    --layer-n04-text: #FFFFFF;
+    --layer-n04-btn: #0E5E2C;
+    --layer-n04-dark: #1a5d3a;
+
+    /* N.05 · Operacionais · laranja */
+    --layer-n05: #e67e22;
+    --layer-n05-soft: #FFF3E0;
+    --layer-n05-shadow: rgba(230,126,34,0.35);
+    --layer-n05-text: #FFFFFF;
+    --layer-n05-btn: #7A2D00;
+    --layer-n05-dark: #7a3f0d;
+
+    /* N.06 · Repos Por Ano · azul-céu (3 níveis) */
+    --layer-n06: #1e88e5;
+    --layer-n06-soft: #DCEAFB;
+    --layer-n06-shadow: rgba(30,136,229,0.35);
+    --layer-n06-text: #FFFFFF;
+    --layer-n06-btn: #082A52;
+    --layer-n06-dark: #133A5F;
+
+    /* N.07 · Conteúdo Por Ano · verde-musgo (3 níveis) */
+    --layer-n07: #16a085;
+    --layer-n07-soft: #D5F0EA;
+    --layer-n07-shadow: rgba(22,160,133,0.35);
+    --layer-n07-text: #FFFFFF;
+    --layer-n07-btn: #0A4A3D;
+    --layer-n07-dark: #155446;
+
+    /* N.08 · Renderização HTML · pink (3 níveis) */
+    --layer-n08: #d63384;
+    --layer-n08-soft: #F8BBD0;
+    --layer-n08-shadow: rgba(214,51,132,0.40);
+    --layer-n08-text: #FFFFFF;
+    --layer-n08-btn: #4F0729;
+    --layer-n08-dark: #6e1a44;
+
+    /* N.09 · Apoio · cinza */
+    --layer-n09: #7a8699;
+    --layer-n09-soft: #E8EAEE;
+    --layer-n09-shadow: rgba(122,134,153,0.35);
+    --layer-n09-text: #FFFFFF;
+    --layer-n09-btn: #2C333D;
+    --layer-n09-dark: #3D4651;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -432,6 +522,17 @@
   /* v01.02 · novas camadas */
   .layer-rel     { --proj-soft: var(--layer-rel-soft);     --proj-strong: var(--layer-rel);     --proj-shadow: var(--layer-rel-shadow);     --proj-text: var(--layer-rel-text);     --proj-btn: var(--layer-rel-btn);     --proj-dark: var(--layer-rel-dark); }
   .layer-avaplan { --proj-soft: var(--layer-avaplan-soft); --proj-strong: var(--layer-avaplan); --proj-shadow: var(--layer-avaplan-shadow); --proj-text: var(--layer-avaplan-text); --proj-btn: var(--layer-avaplan-btn); --proj-dark: var(--layer-avaplan-dark); }
+  /* v02.00 · classes por nível (paradigma V.03.09) */
+  .layer-n00 { --proj-soft: var(--layer-n00-soft); --proj-strong: var(--layer-n00); --proj-shadow: var(--layer-n00-shadow); --proj-text: var(--layer-n00-text); --proj-btn: var(--layer-n00-btn); --proj-dark: var(--layer-n00-dark); }
+  .layer-n01 { --proj-soft: var(--layer-n01-soft); --proj-strong: var(--layer-n01); --proj-shadow: var(--layer-n01-shadow); --proj-text: var(--layer-n01-text); --proj-btn: var(--layer-n01-btn); --proj-dark: var(--layer-n01-dark); }
+  .layer-n02 { --proj-soft: var(--layer-n02-soft); --proj-strong: var(--layer-n02); --proj-shadow: var(--layer-n02-shadow); --proj-text: var(--layer-n02-text); --proj-btn: var(--layer-n02-btn); --proj-dark: var(--layer-n02-dark); }
+  .layer-n03 { --proj-soft: var(--layer-n03-soft); --proj-strong: var(--layer-n03); --proj-shadow: var(--layer-n03-shadow); --proj-text: var(--layer-n03-text); --proj-btn: var(--layer-n03-btn); --proj-dark: var(--layer-n03-dark); }
+  .layer-n04 { --proj-soft: var(--layer-n04-soft); --proj-strong: var(--layer-n04); --proj-shadow: var(--layer-n04-shadow); --proj-text: var(--layer-n04-text); --proj-btn: var(--layer-n04-btn); --proj-dark: var(--layer-n04-dark); }
+  .layer-n05 { --proj-soft: var(--layer-n05-soft); --proj-strong: var(--layer-n05); --proj-shadow: var(--layer-n05-shadow); --proj-text: var(--layer-n05-text); --proj-btn: var(--layer-n05-btn); --proj-dark: var(--layer-n05-dark); }
+  .layer-n06 { --proj-soft: var(--layer-n06-soft); --proj-strong: var(--layer-n06); --proj-shadow: var(--layer-n06-shadow); --proj-text: var(--layer-n06-text); --proj-btn: var(--layer-n06-btn); --proj-dark: var(--layer-n06-dark); }
+  .layer-n07 { --proj-soft: var(--layer-n07-soft); --proj-strong: var(--layer-n07); --proj-shadow: var(--layer-n07-shadow); --proj-text: var(--layer-n07-text); --proj-btn: var(--layer-n07-btn); --proj-dark: var(--layer-n07-dark); }
+  .layer-n08 { --proj-soft: var(--layer-n08-soft); --proj-strong: var(--layer-n08); --proj-shadow: var(--layer-n08-shadow); --proj-text: var(--layer-n08-text); --proj-btn: var(--layer-n08-btn); --proj-dark: var(--layer-n08-dark); }
+  .layer-n09 { --proj-soft: var(--layer-n09-soft); --proj-strong: var(--layer-n09); --proj-shadow: var(--layer-n09-shadow); --proj-text: var(--layer-n09-text); --proj-btn: var(--layer-n09-btn); --proj-dark: var(--layer-n09-dark); }
 
   /* V.08.30 · DARK REFINADO · cor "noite" da camada nos cards .projeto */
   :root[data-theme="dark"] .projeto {
@@ -611,6 +712,30 @@
       animation: none;
     }
   }
+  /* v02.00 · status-badge (5 ícones V.03.09) */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(255,255,255,0.25);
+    color: inherit;
+    border: 1px solid rgba(255,255,255,0.4);
+    margin-left: 6px;
+    white-space: nowrap;
+  }
+  .status-badge.s-ativo      { background: rgba(46,204,113,0.30);  border-color: rgba(255,255,255,0.55); }
+  .status-badge.s-renomear   { background: rgba(241,196,15,0.35);  border-color: rgba(255,255,255,0.55); }
+  .status-badge.s-acriar     { background: rgba(255,193,7,0.30);   border-color: rgba(255,255,255,0.45); }
+  .status-badge.s-reservado  { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.35); }
+  .status-badge.s-container  { background: rgba(74,144,226,0.30);  border-color: rgba(255,255,255,0.55); }
+
+  /* Em camada amarelo (RB v01.02 mantido) ajusta texto · v02.00 não usa rb mas mantém compat */
+  :root[data-theme="light"] .projeto.layer-rb .status-badge { color: #2D2D2D; border-color: rgba(0,0,0,0.30); }
+
   .copy-btn {
     background: transparent;
     color: var(--text-dim);
@@ -815,8 +940,8 @@
 <body>
 
 <div class="topbar">
-  <h1>MapCM v01.02 — Mapa dos Chats Mestres
-    <small>36 CMs ativos · governança · criatividade · produção · relatórios · diagnóstico · especializados · cross V.08.30</small>
+  <h1>MapCM v02.00 — V.03.09 — Mapa dos Chats Mestres
+    <small>10 níveis hierárquicos · N.00 a N.09 · 3 níveis de profundidade em N.02/N.04/N.06/N.07/N.08 · prefixos funcionais</small>
   </h1>
   <div class="topbar-actions">
     <input type="search" class="search" id="search" placeholder="🔍 Buscar projeto/chat...">
@@ -920,158 +1045,210 @@
 
 <script>
 // ============== VERSÃO ==============
-const VERSAO = "v01.02";
-const VERSAO_MAPCM = "v01.02";
+const VERSAO = "v02.00";
+const VERSAO_MAPCM = "v02.00";
+const VERSAO_HIERARQUIA = "V.03.09";
 
 // ============== DADOS ==============
 const dados = [
-  // ===== GOVERNANÇA (7 CMs · +ROTA_012 em v01.02) =====
-  {
-    camada: 'co',
-    titulo: '🟤 GOVERNANÇA · Orquestração e estrutura',
-    descCamada: 'Roteamento · estrutura · listas mestre · catálogos · mapas · varredura cronológica (este chat é o item 7)',
-    badge: '7 CMs',
-    expandido: true,
-    projetos: [
-      { codigo: 'CM-ROTA_009', nome: 'Orquestrador central', desc: 'Roteador puro · recebe assuntos · roteia para CM destino · gera comando copiável', status: 'running', chats: [{ n: 'Abrir CM-ROTA_009', d: 'https://claude.ai/chat/2a2ab546-588e-4b60-b8b6-a43bdbd65efa' }] },
-      { codigo: 'CM-ROTA_012', nome: '⭐ Orquestrador · varredura 20 colunas', desc: 'Sucessor do CM-ROTA_011 · varredura cronológica CM-GRL_000-009 · classificação em 20 colunas · entrega por destinatário', status: 'running', chats: [{ n: 'Abrir CM-ROTA_012', d: 'https://claude.ai/chat/6f0e7444-4cd0-4e51-91a9-4772e5b90a09' }] },
-      { codigo: 'CM-ESTR_001', nome: 'Estrutura · LEst', desc: 'Lista estrutural · arquitetura de chats e relações', status: 'running', chats: [{ n: 'Abrir CM-ESTR_001', d: 'https://claude.ai/chat/b74375d7-ed0c-4761-9b9a-11bef907561a' }] },
-      { codigo: 'CM-GOV_001', nome: 'Governança · LGov', desc: 'Lista de governança · regras · políticas operacionais', status: 'running', chats: [{ n: 'Abrir CM-GOV_001', d: 'https://claude.ai/chat/31f1a000-6e9d-4f07-a743-8f810916f679' }] },
-      { codigo: 'CM-LModAtv_001', nome: 'Lista Modelos de Atividades', desc: 'Catálogo modelos A-P · referência pedagógica', status: 'running', chats: [{ n: 'Abrir CM-LModAtv_001', d: 'https://claude.ai/chat/3b5f31ff-8ee2-434d-93bb-ba0fbac9dd7e' }] },
-      { codigo: 'CM-LPrompts_001', nome: 'Lista de Prompts', desc: 'Catálogo de prompts reutilizáveis', status: 'running', chats: [{ n: 'Abrir CM-LPrompts_001', d: 'https://claude.ai/chat/3a6ecfb5-3904-46e4-89e5-774adb56a99c' }] },
-      { codigo: 'CM-MAPA_001', nome: '⭐ Mapas · este chat', desc: 'Mapas V.08.xx · MapCM · estruturas visuais GitHub Pages', status: 'running', chats: [{ n: 'Abrir CM-MAPA_001', d: 'https://claude.ai/chat/75b9ab06-768a-4e92-88ec-c473967b0b53' }] }
-    ]
-  },
 
-  // ===== CRIATIVIDADE (4 CMs) =====
+  // ===== N.00 · GOVERNANÇA + ESTRUTURAÇÃO (3 CMs ativos · 2 níveis) =====
   {
-    camada: 'for',
-    titulo: '🩷 CRIATIVIDADE · Geração de ideias por área',
-    descCamada: 'Ideação pedagógica por grande área do conhecimento · alimenta produção',
-    badge: '4 CMs',
-    expandido: true,
-    projetos: [
-      { codigo: 'CM-CRIA-EXA_001', nome: 'Criatividade · Exatas', desc: 'Ideias para Matemática · Ciências da Natureza · Robótica · Tecnologia', status: 'running', chats: [{ n: 'Abrir CM-CRIA-EXA_001', d: 'https://claude.ai/chat/64cc3d03-985e-4da0-9588-f5cb7b0d3274' }] },
-      { codigo: 'CM-CRIA-GRL_001', nome: 'Criatividade · Integrador', desc: 'Ideias interdisciplinares · cruzamentos entre áreas', status: 'running', chats: [{ n: 'Abrir CM-CRIA-GRL_001', d: 'https://claude.ai/chat/1e26b487-1652-4fb5-86a9-aa38260b36c8' }] },
-      { codigo: 'CM-CRIA-LING_001', nome: 'Criatividade · Linguagens', desc: 'Ideias para Língua Portuguesa · Inglês · Arte · Educação Física', status: 'running', chats: [{ n: 'Abrir CM-CRIA-LING_001', d: 'https://claude.ai/chat/f918b6e9-8c43-4b44-9e6a-20a448d65708' }] },
-      { codigo: 'CM-CRIA-HUM_001', nome: 'Criatividade · Humanas', desc: 'Ideias para História · Geografia · Filosofia · Sociologia', status: 'running', chats: [{ n: 'Abrir CM-CRIA-HUM_001', d: 'https://claude.ai/chat/8126a95b-f023-474c-a884-a8c674ba9805' }] }
-    ]
-  },
-
-  // ===== PRODUÇÃO TECNOLOGIA (6 CMs) =====
-  {
-    camada: 'tc',
-    titulo: '🟢 PRODUÇÃO · Tecnologia',
-    descCamada: 'Aulas · gabaritos · dinâmicas por ano · maior volume operacional do componente',
-    badge: '6 CMs',
-    expandido: true,
-    projetos: [
-      { codigo: 'CM-TEC-NAV-AULA_001', nome: 'NAV.03/04/05 · aulas', desc: 'Produção de NAVs por aula · navegáveis de 20-22 questões', status: 'running', chats: [{ n: 'Abrir CM-TEC-NAV-AULA_001', d: 'https://claude.ai/chat/5058e768-f5d5-4e16-83e0-5d73b8c180ca' }] },
-      { codigo: 'CM-TEC-GAB_001', nome: 'Gabaritos Alura', desc: 'Gabaritos de avaliações · fonte de aulas · HTML acessível', status: 'running', chats: [{ n: 'Abrir CM-TEC-GAB_001', d: 'https://claude.ai/chat/fae5efc4-7514-4ccb-9003-f87b5b67cdb8' }] },
-      { codigo: 'CM-TEC-DIN-6_001', nome: 'Dinâmicas · 6º ano', desc: 'Dinâmicas de aula · alinhamento com PEI · Cidadania Digital', status: 'running', chats: [{ n: 'Abrir CM-TEC-DIN-6_001', d: 'https://claude.ai/chat/998d4175-04db-4ed0-b2b1-ef93da1b076d' }] },
-      { codigo: 'CM-TEC-DIN-7_001', nome: 'Dinâmicas · 7º ano', desc: 'Dinâmicas de aula · Educação Midiática · Análise crítica', status: 'running', chats: [{ n: 'Abrir CM-TEC-DIN-7_001', d: 'https://claude.ai/chat/5cb2a5a2-b410-4a9c-b5e9-6a04a17b2930' }] },
-      { codigo: 'CM-TEC-DIN-8_001', nome: 'Dinâmicas · 8º ano', desc: 'Dinâmicas de aula · 8º ano', status: 'running', chats: [{ n: 'Abrir CM-TEC-DIN-8_001', d: 'https://claude.ai/chat/45021c60-07c6-4772-9ffa-7c99030f8978' }] },
-      { codigo: 'CM-TEC-DIN-9_001', nome: 'Dinâmicas · 9º ano', desc: 'Dinâmicas de aula · Pensamento Computacional', status: 'running', chats: [{ n: 'Abrir CM-TEC-DIN-9_001', d: 'https://claude.ai/chat/d1156232-2444-46fd-b133-0a6db31de272' }] }
-    ]
-  },
-
-  // ===== PRODUÇÃO ROBÓTICA (1 CM) =====
-  {
-    camada: 'rb',
-    titulo: '🟡 PRODUÇÃO · Robótica',
-    descCamada: 'NAVs e PPTX da disciplina de Robótica (6º ano)',
-    badge: '1 CM',
-    expandido: true,
-    projetos: [
-      { codigo: 'CM-ROB_001', nome: 'Robótica · NAV.01 + PPTX', desc: 'Produção dos materiais NAV.01 e slides PPTX · 6º ano', status: 'running', chats: [{ n: 'Abrir CM-ROB_001', d: 'https://claude.ai/chat/1cbc5b79-4516-4472-aae2-72b146cd0d0b' }] }
-    ]
-  },
-
-  // ===== PRODUÇÃO HUMANAS / PV / LP (2 CMs ativos + 1 sem link) =====
-  {
-    camada: 'pei',
-    titulo: '🔵 PRODUÇÃO · Humanas · Projeto de Vida · Língua Portuguesa',
-    descCamada: 'Componentes humanísticos · linguagem · projeto de vida do estudante',
-    badge: '3 CMs (1 pendente link)',
-    expandido: true,
-    projetos: [
-      { codigo: 'CM-PV_001', nome: 'Projeto de Vida', desc: 'Componente Projeto de Vida · alinhamento PEI · trilhas', status: 'running', chats: [{ n: 'Abrir CM-PV_001', d: 'https://claude.ai/chat/b2c6bb40-7198-4d19-9091-5612d18e5382' }] },
-      { codigo: 'CM-LP_001', nome: 'Língua Portuguesa', desc: 'Componente LP · produção pedagógica · link do chat pendente', status: 'planned', chats: [{ n: 'Link pendente', d: 'CM existe mas URL ainda não foi capturada' }] }
-    ]
-  },
-
-  // ===== PRODUÇÃO EXATAS · MAT / CN (2 CMs sem link) =====
-  {
-    camada: 'site',
-    titulo: '💗 PRODUÇÃO · Matemática · Ciências da Natureza',
-    descCamada: 'Componentes exatas · links pendentes para serem registrados',
-    badge: '2 CMs (links pendentes)',
-    expandido: true,
-    projetos: [
-      { codigo: 'CM-MAT_001', nome: 'Matemática', desc: 'Componente MAT · link do chat pendente · CM existe', status: 'planned', chats: [{ n: 'Link pendente', d: 'CM existe mas URL ainda não foi capturada' }] },
-      { codigo: 'CM-CN_001', nome: 'Ciências da Natureza', desc: 'Componente CN · link do chat pendente · CM existe', status: 'planned', chats: [{ n: 'Link pendente', d: 'CM existe mas URL ainda não foi capturada' }] }
-    ]
-  },
-
-  // ===== ESPECIALIZADOS NOVOS (9 CMs · +ATPCA em v01.02) =====
-  {
-    camada: 'mestre',
-    titulo: '🟣 ESPECIALIZADOS · Materiais e ferramentas novas',
-    descCamada: 'CMs especializados em produtos pedagógicos específicos · transversais aos componentes · inclui formação docente',
-    badge: '9 CMs',
-    expandido: true,
-    projetos: [
-      { codigo: 'CM-FACA_001', nome: 'Faça como eu fiz · Alura', desc: 'Cards "Faça como eu fiz" · suporte às aulas Alura', status: 'running', chats: [{ n: 'Abrir CM-FACA_001', d: 'https://claude.ai/chat/c2dcfe1f-f4b5-4498-bd20-18a031d9d4dd' }] },
-      { codigo: 'CM-PlayList_001', nome: 'Playlist musical/cultural', desc: 'Curadoria de playlists musicais e culturais para bimestre', status: 'running', chats: [{ n: 'Abrir CM-PlayList_001', d: 'https://claude.ai/chat/09869c75-f2fa-477c-aec4-00cd5ae85f1b' }] },
-      { codigo: 'CM-PREM_001', nome: 'Premiação bimestral', desc: 'Sistema de premiação · níveis · prêmios doces · gamificação', status: 'running', chats: [{ n: 'Abrir CM-PREM_001', d: 'https://claude.ai/chat/cd79dd94-6392-42ce-990c-d1a3d24f7f83' }] },
-      { codigo: 'CM-TUT_001', nome: 'Tutorias · 3 eixos', desc: 'Tutorias agrupadas em 3 eixos · acompanhamento PEI', status: 'running', chats: [{ n: 'Abrir CM-TUT_001', d: 'https://claude.ai/chat/7aca4816-b993-4436-a1de-ff2c484dd52b' }] },
-      { codigo: 'CM-GUIA_001', nome: 'Guia do Estudante bimestral', desc: 'Guia do Estudante · publicação por bimestre · canal aluno', status: 'running', chats: [{ n: 'Abrir CM-GUIA_001', d: 'https://claude.ai/chat/d1664527-ffd3-40d8-bde4-0b3f902c1d20' }] },
-      { codigo: 'CM-PESQ-PROF_001', nome: 'Pesquisas · professor', desc: 'Pesquisas com o corpo docente · feedback institucional', status: 'running', chats: [{ n: 'Abrir CM-PESQ-PROF_001', d: 'https://claude.ai/chat/ca44a802-f6bd-474f-91a9-4ddccd671214' }] },
-      { codigo: 'CM-PESQ-EST_001', nome: 'Pesquisas · estudante', desc: 'Pesquisas com estudantes · escuta · indicadores', status: 'running', chats: [{ n: 'Abrir CM-PESQ-EST_001', d: 'https://claude.ai/chat/2127dc22-35b2-4dda-a624-6de6f20f5e0f' }] },
-      { codigo: 'CM-MULT_001', nome: 'Curso Multiplica SP', desc: 'Curso Multiplica SP · formação continuada do professor', status: 'running', chats: [{ n: 'Abrir CM-MULT_001', d: 'https://claude.ai/chat/e5877888-71e8-46ae-be2b-f7f8cc451b97' }] },
-      { codigo: 'CM-ATPCA_001', nome: '⭐ ATPC-A · Exatas/Biológicas', desc: 'ATPC · Aulas de Trabalho Pedagógico Coletivo · Área Exatas · MAT/CN/TEC/ROB · quintas 3ª/4ª aula · distinto do ATPC-G', status: 'running', chats: [{ n: 'Abrir CM-ATPCA_001', d: 'https://claude.ai/chat/5fc88401-56c0-4429-8601-bd2605cc8552' }] }
-    ]
-  },
-
-  // ===== RELATÓRIOS (3 CMs · novo em v01.02) =====
-  {
-    camada: 'rel',
-    titulo: '🟠 RELATÓRIOS · Análise de dados pedagógicos',
-    descCamada: 'Relatórios institucionais e pedagógicos · BI SEDUC · QBA Alura · acompanhamento de conclusão · entrada antes do INNER',
+    camada: 'n00',
+    titulo: '🟤 N.00 · GOVERNANÇA + ESTRUTURAÇÃO',
+    descCamada: 'Topo da arquitetura · histórico · visualização · estrutura · prefixo CM- (mestres reais) · 2 níveis (N.XX.YY)',
     badge: '3 CMs',
     expandido: true,
     projetos: [
-      { codigo: 'CM-REL-BI_001', nome: '⭐ Relatórios BI SEDUC', desc: 'Sistema BI oficial SEDUC · 7 cores · dados brutos das avaliações antes do INNER', status: 'running', chats: [{ n: 'Abrir CM-REL-BI_001', d: 'https://claude.ai/chat/b19600fa-68d1-4035-b89d-6f45d4f067d1' }] },
-      { codigo: 'CM-REL-AV.ALURA_001', nome: '⭐ Relatórios Avaliações Alura · QBA', desc: 'Banco de Avaliações Alura · NAV.05 oficial · análise pós-prova · desconstrução de questões', status: 'running', chats: [{ n: 'Abrir CM-REL-AV.ALURA_001', d: 'https://claude.ai/chat/b08d1cb5-0803-4b78-b351-426ff39b5fc3' }] },
-      { codigo: 'CM-REL-LINK-AL_001', nome: '⭐ Linking Alura · Conclusão', desc: 'Acompanhamento de conclusão Alura · quem fez/não fez · taxa por turma · monitoramento de engajamento', status: 'running', chats: [{ n: 'Abrir CM-REL-LINK-AL_001', d: 'https://claude.ai/chat/da7db689-4937-4892-be62-d83df7e8efd9' }] }
+      { codigo: 'N.00.01_CM-008', nome: 'Orquestrador histórico', desc: 'Saturado · referência para sucessões de orquestração', status: 'planned', statusV0309: 'ativo', chats: [{ n: 'Histórico CM-008', d: 'Saturado · arquivado' }] },
+      { codigo: 'N.00.02_CM-MAPA_001', nome: '⭐ Mapas · este chat', desc: 'Visualizador único da arquitetura · MapCM v02.00 · mapas correlatos GitHub Pages', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Abrir CM-MAPA_001', d: 'https://claude.ai/chat/75b9ab06-768a-4e92-88ec-c473967b0b53' }] },
+      { codigo: 'N.00.03_CM-ESTR_001', nome: 'Guardião da estrutura', desc: 'Mantém referência estrutural · atualiza V.03.XX · regra 27', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Abrir CM-ESTR_001', d: 'https://claude.ai/chat/b74375d7-ed0c-4761-9b9a-11bef907561a' }] }
     ]
   },
 
-  // ===== AVALIAÇÃO + PLANEJAMENTO (2 CMs · novo em v01.02) =====
+  // ===== N.01 · GERADORES + COORDENADORES (4 CMs ativos · 2 níveis) =====
   {
-    camada: 'avaplan',
-    titulo: '🩷 DIAGNÓSTICO + PLANO · Ciclo bimestral',
-    descCamada: 'Avaliação Diagnóstica de Entrada (ADE) seguida do Plano de Análise Cognitivo (PAC) · ciclo quinzenal Q1-Q4 · base para intervenção',
-    badge: '2 CMs',
+    camada: 'n01',
+    titulo: '🔴 N.01 · GERADORES + COORDENADORES',
+    descCamada: 'Roteamento · criação · auditoria · ação ativa do sistema · prefixo CM- (mestres reais) · 2 níveis',
+    badge: '4 CMs',
     expandido: true,
     projetos: [
-      { codigo: 'CM-ADE_001', nome: '⭐ Avaliação Diagnóstica de Entrada', desc: 'ADE no início de cada bimestre · mapeamento de pontos de partida · base para PAC', status: 'running', chats: [{ n: 'Abrir CM-ADE_001', d: 'https://claude.ai/chat/eae8c5d2-03ce-4f03-9a38-d91b63138cea' }] },
-      { codigo: 'CM-PAC_001', nome: '⭐ Plano de Análise Cognitivo', desc: 'Planejamento pós-ADE · estratégia + recursos + Bloom + BNCC · ciclo quinzenal Q1-Q4 · 4 PACs por bimestre', status: 'running', chats: [{ n: 'Abrir CM-PAC_001', d: 'https://claude.ai/chat/e1f463bc-6e8b-4321-bbb3-e57682012df5' }] }
+      { codigo: 'N.01.01_CM-CRIA', nome: 'Criatividade · Integrador', desc: 'CM-CRIA-GRL_001 · ideias interdisciplinares · alimenta produção', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Abrir CM-CRIA-GRL_001', d: 'https://claude.ai/chat/1e26b487-1652-4fb5-86a9-aa38260b36c8' }] },
+      { codigo: 'N.01.02_CM-ROTA_020', nome: '⭐ Orquestrador coordenador', desc: 'Sucessor de ROTA_011/012 · coordena fluxo padronizado · roteia pedidos · gera comandos copiáveis', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Abrir CM-ROTA_020', d: 'https://claude.ai/chat/041d1cb9-48ef-4f42-aefc-72fbe03038c2' }] },
+      { codigo: 'N.01.03_CM-FORJA_001', nome: 'Criador de CMs novos', desc: 'Forja CMs · cria novos chats com identidade V.03.09 · notifica CM-MAPA', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Link pendente', d: 'CM-FORJA_001 ativo · URL a capturar' }] },
+      { codigo: 'N.01.04_CM-AUDIT_019', nome: '⭐ Auditor arquitetural', desc: 'Audita estrutura · emite versões V.03.XX · valida feedbacks bidirecionais (regra 25)', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Abrir CM-AUDIT_019', d: 'https://claude.ai/chat/65f4882e-8c0a-42e4-8c1b-2e7bc693c52d' }] }
+    ]
+  },
+
+  // ===== N.02 · REPOSITÓRIOS DADOS-BASE (3 níveis · prefixo REP-) =====
+  {
+    camada: 'n02',
+    titulo: '🔵 N.02 · REPOSITÓRIOS DADOS-BASE',
+    descCamada: 'Repositórios cross-componente e componente-específicos · 3 níveis (N.02.YY.ZZ) · prefixo REP-',
+    badge: '1 ativo + slots',
+    expandido: false,
+    projetos: [
+      { codigo: 'N.02.01_REP-GRL', nome: '🔵 Container · cross-componente', desc: 'Container do REP-GRL · agregador de repositórios cross-componente', status: 'planned', statusV0309: 'container', chats: [{ n: 'Container', d: 'Agrupa sub-itens REP-GRL' }] },
+      { codigo: 'N.02.07_D3-CN-MAT', nome: '🔵 Container · D3 (CN+MAT)', desc: 'Container D3-DIV-CN-MAT · agrega TEC · ROB · EDUC-FIN · OE-MAT · PE-CN · PE-MAT', status: 'planned', statusV0309: 'container', chats: [{ n: 'Container', d: 'Sub-slots por componente D3' }] },
+      { codigo: 'N.02.07.06_REP-D3-TEC-GRL_001', nome: 'REP D3-TEC cross-ano', desc: 'Repositório TEC · dados cross-ano · escopo · sequência · referência pedagógica', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Link a capturar', d: 'CM ativo · URL pendente · CLD-AUDIT confirmou nome' }] },
+      { codigo: 'N.02.02-08_DEMAIS', nome: 'Demais slots B2/B3/D1/D2/DIV/PEI', desc: 'Slots de B1-CHumanas · B2-Linguagens · B3-CN-MAT · D1 · D2 · DIV-Genérica · PEI · a confirmar com CM-AUDIT_019 quando criados', status: 'planned', statusV0309: 'acriar', chats: [{ n: 'Pendência', d: 'Slots reservados · conforme V.03.04 CLD-197' }] }
+    ]
+  },
+
+  // ===== N.03 · FORMAÇÃO EFAPE/MULTIPLICA (2 níveis · prefixo EF-) =====
+  {
+    camada: 'n03',
+    titulo: '🟣 N.03 · FORMAÇÃO EFAPE / MULTIPLICA',
+    descCamada: 'Formação institucional do professor · cursos EFAPE · Multiplica SP · ATPC administrativo · prefixo EF-',
+    badge: '1 ativo',
+    expandido: false,
+    projetos: [
+      { codigo: 'N.03.01_ATPC', nome: 'ATPC administrativo cross', desc: 'ATPC administrativo · transversal aos componentes', status: 'planned', statusV0309: 'acriar', chats: [{ n: 'Slot reservado', d: 'A criar futuro' }] },
+      { codigo: 'N.03.07_EF-D3-ROB', nome: '✅ EFAPE Robótica', desc: 'Formação EFAPE concluída · manual CLD-029 arquivado', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Material arquivado', d: 'Curso D3-ROB concluído' }] },
+      { codigo: 'N.03.08_EF-D3-TEC', nome: '⏳ EFAPE Tecnologia', desc: 'Próximo curso EFAPE · Tecnologia · pendente abrir', status: 'planned', statusV0309: 'acriar', chats: [{ n: 'A iniciar', d: 'Próximo na fila EFAPE' }] }
+    ]
+  },
+
+  // ===== N.04 · PLANEJAMENTO (3 níveis · GUIA/PA/PAC/PEI) =====
+  {
+    camada: 'n04',
+    titulo: '🟢 N.04 · PLANEJAMENTO (GUIA + PA + PAC + PEI)',
+    descCamada: '4 containers · GUIAs (22 slots alfabéticos) · PLANO-AULA (numeração linear) · PAC (folha) · PEI (folha) · 3 níveis em GUIA/PA',
+    badge: '5 ativos + reservas',
+    expandido: true,
+    projetos: [
+      { codigo: 'N.04.01_GUIAs', nome: '🔵 Container · GUIAs (22 slots)', desc: 'Container GUIAs · 22 sub-slots alfabéticos por componente · prefixo GUIA-', status: 'planned', statusV0309: 'container', chats: [{ n: 'Container', d: 'Agrupa 22 sub-slots alfabéticos' }] },
+      { codigo: 'N.04.01.18_GUIA-D3-TEC_001', nome: '🔄 GUIA D3-TEC', desc: 'GUIA de Tecnologia · sucessor do antigo CM-D3-GUIA-TEC · posição 18 (ordem alfabética dos 22 componentes)', status: 'running', statusV0309: 'renomear', chats: [{ n: 'Link a capturar pós-rename', d: 'Renomear no UI Marcos · era N.04.01_CM-D3-GUIA-TEC' }] },
+      { codigo: 'N.04.02_PLANO-AULA', nome: '🔵 Container · PLANO-AULA', desc: 'Container PLANO-AULA · numeração linear · prefixo PA- + sufixo ano (-6/-7/-8/-9)', status: 'planned', statusV0309: 'container', chats: [{ n: 'Container', d: 'Agrupa PA- por ano' }] },
+      { codigo: 'N.04.02.01_PA-D3-TEC-6_001', nome: '🔄 PA TEC 6º ano', desc: 'Plano-Aula Tecnologia 6º ano · era N.04.05_CM-D3-PLANO-AULA(TEC-6)', status: 'running', statusV0309: 'renomear', chats: [{ n: 'Link a capturar pós-rename', d: 'Renomear no UI Marcos' }] },
+      { codigo: 'N.04.02.02_PA-D3-TEC-7_001', nome: '🔄 PA TEC 7º ano', desc: 'Plano-Aula Tecnologia 7º ano · era N.04.06_CM-D3-PLANO-AULA(TEC-7)', status: 'running', statusV0309: 'renomear', chats: [{ n: 'Link a capturar pós-rename', d: 'Renomear no UI Marcos' }] },
+      { codigo: 'N.04.02.03_PA-D3-TEC-8_001', nome: '🔄 PA TEC 8º ano', desc: 'Plano-Aula Tecnologia 8º ano · era N.04.07_CM-D3-PLANO-AULA(TEC-8)', status: 'running', statusV0309: 'renomear', chats: [{ n: 'Link a capturar pós-rename', d: 'Renomear no UI Marcos' }] },
+      { codigo: 'N.04.02.04_PA-D3-TEC-9_001', nome: '🔄 PA TEC 9º ano', desc: 'Plano-Aula Tecnologia 9º ano · era N.04.08_CM-D3-PLANO-AULA(TEC-9)', status: 'running', statusV0309: 'renomear', chats: [{ n: 'Link a capturar pós-rename', d: 'Renomear no UI Marcos' }] },
+      { codigo: 'N.04.02.05_PA-D3-ROB-6_001', nome: '⚪ PA ROB 6º (reservado)', desc: 'Slot reservado · Plano-Aula Robótica 6º ano · a criar futuro', status: 'planned', statusV0309: 'reservado', chats: [{ n: 'Reservado', d: 'A criar futuro' }] },
+      { codigo: 'N.04.03_PAC_001', nome: 'PAC · Plano de Análise Cognitivo', desc: 'PAC · folha de 2 níveis · ciclo quinzenal Q1-Q4 · 4 PACs/bim · Bloom + BNCC', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Abrir CM-PAC_001', d: 'https://claude.ai/chat/e1f463bc-6e8b-4321-bbb3-e57682012df5' }] },
+      { codigo: 'N.04.04_PEI_001', nome: 'PEI · Plano Estudo Individualizado', desc: 'PEI · folha de 2 níveis · pendente criação', status: 'planned', statusV0309: 'acriar', chats: [{ n: 'A criar', d: 'Slot definido · CM ainda não existe' }] }
+    ]
+  },
+
+  // ===== N.05 · OPERACIONAIS ESPECIALISTAS (15 itens · 2 níveis · nome funcional direto) =====
+  {
+    camada: 'n05',
+    titulo: '🟠 N.05 · OPERACIONAIS ESPECIALISTAS',
+    descCamada: '15 itens · multi-componente · NÃO segue B1/B2/B3 internamente · 2 níveis (N.05.YY) · prefixos: NAV · GAB · CONVIV · PV · TUT · etc',
+    badge: '15 CMs',
+    expandido: false,
+    projetos: [
+      { codigo: 'N.05.01_FACA-INTERP', nome: 'FACA-INTERP (ativo)', desc: 'CM-FACA-INTERP_002 ativo · Faça como eu fiz interpretação', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Abrir CM-FACA_001', d: 'https://claude.ai/chat/c2dcfe1f-f4b5-4498-bd20-18a031d9d4dd' }] },
+      { codigo: 'N.05.02_FACA-INTERP-HIST', nome: 'FACA-INTERP histórico (saturado)', desc: 'CM-FACA-INTERP_001 saturado · histórico', status: 'planned', statusV0309: 'ativo', chats: [{ n: 'Saturado', d: 'Arquivado' }] },
+      { codigo: 'N.05.03_FACA-PRODUC', nome: 'FACA-PRODUC', desc: 'CM-FACA-PRODUC_001 · Faça como eu fiz produção · vazio', status: 'planned', statusV0309: 'acriar', chats: [{ n: 'Link pendente', d: 'CM existe vazio' }] },
+      { codigo: 'N.05.04_NAV-AULA', nome: 'NAV-AULA', desc: 'CM-TEC-NAV-AULA_001 · produção de NAVs por aula', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Abrir CM-TEC-NAV-AULA_001', d: 'https://claude.ai/chat/5058e768-f5d5-4e16-83e0-5d73b8c180ca' }] },
+      { codigo: 'N.05.05_GAB', nome: 'GAB · Gabaritos Alura', desc: 'CM-TEC-GAB_001 · gabaritos de avaliações · fonte de aulas', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Abrir CM-TEC-GAB_001', d: 'https://claude.ai/chat/fae5efc4-7514-4ccb-9003-f87b5b67cdb8' }] },
+      { codigo: 'N.05.06_ALURA-RESOL', nome: 'ALURA-RESOL', desc: 'CM-TEC-AL-ALURA-RESOL_001 · resoluções Alura', status: 'planned', statusV0309: 'acriar', chats: [{ n: 'Link pendente', d: 'CM em uso · URL a capturar' }] },
+      { codigo: 'N.05.07_CONVIV', nome: 'CONVIV · Convivência PEI', desc: 'CM-CONVIV_001 · convivência · PEI', status: 'planned', statusV0309: 'acriar', chats: [{ n: 'Link pendente', d: 'CM em uso · URL a capturar' }] },
+      { codigo: 'N.05.08_TEC-LIDEQ', nome: 'TEC-LIDEQ', desc: 'CM-TEC-LIDEQ_001 · Liderança e Equipe', status: 'planned', statusV0309: 'acriar', chats: [{ n: 'Link pendente', d: 'CM em uso · URL a capturar' }] },
+      { codigo: 'N.05.09_PV', nome: 'PV · Projeto de Vida (D1)', desc: 'CM-PV_001 · componente Projeto de Vida', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Abrir CM-PV_001', d: 'https://claude.ai/chat/b2c6bb40-7198-4d19-9091-5612d18e5382' }] },
+      { codigo: 'N.05.10_TUT', nome: 'TUT · Tutorias PEI', desc: 'CM-TUT_001 · tutorias 3 eixos · acompanhamento PEI', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Abrir CM-TUT_001', d: 'https://claude.ai/chat/7aca4816-b993-4436-a1de-ff2c484dd52b' }] },
+      { codigo: 'N.05.11_IA-APREND', nome: 'IA-APREND', desc: 'CM-IA-APREND_001 · IA e aprendizagem', status: 'planned', statusV0309: 'acriar', chats: [{ n: 'Link pendente', d: 'CM em uso · URL a capturar' }] },
+      { codigo: 'N.05.12_LPrompts', nome: 'LPrompts · Lista de Prompts HTML', desc: 'CM-LPrompts_001 · catálogo de prompts reutilizáveis HTML', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Abrir CM-LPrompts_001', d: 'https://claude.ai/chat/3a6ecfb5-3904-46e4-89e5-774adb56a99c' }] },
+      { codigo: 'N.05.13_LModAtv', nome: 'LModAtv · Lista Modelos Atividades', desc: 'CM-LModAtv_001 · catálogo de modelos A-P', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Abrir CM-LModAtv_001', d: 'https://claude.ai/chat/3b5f31ff-8ee2-434d-93bb-ba0fbac9dd7e' }] },
+      { codigo: 'N.05.14_MOD-INNER', nome: 'MOD-INNER (não componente)', desc: 'CM-MOD-INNER_001 · modelos INNER · não é componente', status: 'planned', statusV0309: 'acriar', chats: [{ n: 'Link pendente', d: 'CM em uso · URL a capturar' }] },
+      { codigo: 'N.05.15_ROB', nome: 'ROB · Robótica', desc: 'CM-ROB_001 · NAV.01 + PPTX 6º ano', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Abrir CM-ROB_001', d: 'https://claude.ai/chat/1cbc5b79-4516-4472-aae2-72b146cd0d0b' }] }
+    ]
+  },
+
+  // ===== N.06 · REPOSITÓRIOS POR ANO (3 níveis · prefixo REP-) =====
+  {
+    camada: 'n06',
+    titulo: '🩵 N.06 · REPOSITÓRIOS POR ANO/COMPONENTE',
+    descCamada: '3 níveis · componente-específico por ano · prefixo REP- + ano (-6/-7/-8/-9) · D3-TEC e D3-ROB ativos',
+    badge: '5 ativos',
+    expandido: false,
+    projetos: [
+      { codigo: 'N.06.18_D3-TEC', nome: '🔵 Container · D3-TEC por ano', desc: 'Container D3-TEC por ano · agrupa REP-D3-TEC-ALURA-Xano', status: 'planned', statusV0309: 'container', chats: [{ n: 'Container', d: 'Agrupa sub-itens por ano' }] },
+      { codigo: 'N.06.18.01_REP-D3-TEC-ALURA-6ano_001', nome: '🔄 REP Alura TEC 6º', desc: 'Era CM-TEC-REP-ALURA-6_001', status: 'running', statusV0309: 'renomear', chats: [{ n: 'Link a capturar pós-rename', d: 'Renomear no UI Marcos' }] },
+      { codigo: 'N.06.18.02_REP-D3-TEC-ALURA-7ano_001', nome: '🔄 REP Alura TEC 7º', desc: 'Era CM-TEC-REP-ALURA-7_001', status: 'running', statusV0309: 'renomear', chats: [{ n: 'Link a capturar pós-rename', d: 'Renomear no UI Marcos' }] },
+      { codigo: 'N.06.18.03_REP-D3-TEC-ALURA-8ano_001', nome: '🔄 REP Alura TEC 8º', desc: 'Era CM-TEC-REP-ALURA-8_001', status: 'running', statusV0309: 'renomear', chats: [{ n: 'Link a capturar pós-rename', d: 'Renomear no UI Marcos' }] },
+      { codigo: 'N.06.18.04_REP-D3-TEC-ALURA-9ano_001', nome: '🔄 REP Alura TEC 9º', desc: 'Era CM-TEC-REP-ALURA-9_001', status: 'running', statusV0309: 'renomear', chats: [{ n: 'Link a capturar pós-rename', d: 'Renomear no UI Marcos' }] },
+      { codigo: 'N.06.17_D3-ROB', nome: '🔵 Container · D3-ROB por ano', desc: 'Container D3-ROB por ano', status: 'planned', statusV0309: 'container', chats: [{ n: 'Container', d: 'Agrupa sub-itens ROB' }] },
+      { codigo: 'N.06.17.01_REP-D3-ROB-CMSP-6ano_001', nome: '🔄 REP CMSP ROB 6º', desc: 'Era CM-ROB-REP-CMSP-6_001', status: 'running', statusV0309: 'renomear', chats: [{ n: 'Link a capturar pós-rename', d: 'Renomear no UI Marcos' }] }
+    ]
+  },
+
+  // ===== N.07 · CONTEÚDO POR ANO (3 níveis · prefixo DINAM-) =====
+  {
+    camada: 'n07',
+    titulo: '🟩 N.07 · CONTEÚDO POR ANO (DINAM)',
+    descCamada: '3 níveis · dinâmicas · personagens · componente-específico por ano · prefixo DINAM-',
+    badge: '4 ativos',
+    expandido: false,
+    projetos: [
+      { codigo: 'N.07.18_D3-TEC', nome: '🔵 Container · DINAM D3-TEC', desc: 'Container DINAM D3-TEC por ano', status: 'planned', statusV0309: 'container', chats: [{ n: 'Container', d: 'Agrupa DINAM por ano' }] },
+      { codigo: 'N.07.18.01_DINAM-D3-TEC-6ano', nome: 'DINAM TEC 6º', desc: 'Era CM-TEC-DINAM-6_001', status: 'running', statusV0309: 'acriar', chats: [{ n: 'Link a capturar', d: 'CM ativo · URL a registrar' }] },
+      { codigo: 'N.07.18.02_DINAM-D3-TEC-7ano', nome: 'DINAM TEC 7º', desc: 'Era CM-TEC-DINAM-7_001', status: 'running', statusV0309: 'acriar', chats: [{ n: 'Link a capturar', d: 'CM ativo · URL a registrar' }] },
+      { codigo: 'N.07.18.03_DINAM-D3-TEC-8ano', nome: 'DINAM TEC 8º', desc: 'Era CM-TEC-DINAM-8_001', status: 'running', statusV0309: 'acriar', chats: [{ n: 'Link a capturar', d: 'CM ativo · URL a registrar' }] },
+      { codigo: 'N.07.18.04_DINAM-D3-TEC-9ano', nome: 'DINAM TEC 9º', desc: 'Era CM-TEC-DINAM-9_001', status: 'running', statusV0309: 'acriar', chats: [{ n: 'Link a capturar', d: 'CM ativo · URL a registrar' }] }
+    ]
+  },
+
+  // ===== N.08 · RENDERIZAÇÃO HTML (3 níveis · C1-MAPA / C2-HUB) =====
+  {
+    camada: 'n08',
+    titulo: '💗 N.08 · RENDERIZAÇÃO HTML',
+    descCamada: '3 níveis · CAMADAS operacionais 1/2/3 · GITHUB · CONSTRUÇÃO · PUBLICADO · prefixos C1-MAPA- / C2-HUB-',
+    badge: '2 ativos + reservas',
+    expandido: true,
+    projetos: [
+      { codigo: 'N.08.01_GITHUB', nome: 'GITHUB · ferramenta', desc: 'CM-GITHUB_001 · ferramenta de publicação', status: 'planned', statusV0309: 'acriar', chats: [{ n: 'Link pendente', d: 'CM ativo · URL a capturar' }] },
+      { codigo: 'N.08.02_CONSTRUCAO', nome: 'CONSTRUÇÃO', desc: 'Versões em produção · histórico · B1/B2/B3/D1/D2/D3/DIV/PEI', status: 'planned', statusV0309: 'container', chats: [{ n: 'Container', d: 'Workspace de construção' }] },
+      { codigo: 'N.08.03_PUBLICADO', nome: 'PUBLICADO', desc: 'Versão ativa · URL pública', status: 'planned', statusV0309: 'container', chats: [{ n: 'Container', d: 'Outputs publicados' }] },
+      { codigo: 'N.08.04_C1-MAPA', nome: '🔵 Container · CAMADA 1 (MAPA)', desc: 'Container MAPA das aulas · índice · semáforo · cards-link · 22 sub-slots alfabéticos', status: 'planned', statusV0309: 'container', chats: [{ n: 'Container', d: 'Agrupa C1-MAPA por componente' }] },
+      { codigo: 'N.08.04.17_C1-MAPA-D3-ROB_001', nome: '⚪ C1-MAPA D3-ROB (reservado)', desc: 'Slot reservado · MAPA aulas ROB · a criar futuro', status: 'planned', statusV0309: 'reservado', chats: [{ n: 'Reservado', d: 'A criar futuro' }] },
+      { codigo: 'N.08.04.18_C1-MAPA-D3-TEC_001', nome: '⭐ C1-MAPA D3-TEC', desc: 'MAPA aulas D3-TEC · era CM-D3-MAPA-AULAS-EST_001 · origem deste comando v02.00', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Abrir N.08.04.18', d: 'https://claude.ai/chat/d625d268-57fb-45c5-a8fb-8e3ec7ffdeae' }] },
+      { codigo: 'N.08.05_C2-HUB', nome: '🔵 Container · CAMADA 2 (HUB)', desc: 'Container HUB · HTML por aula · 5 blocos · clímax interativo · 22 sub-slots', status: 'planned', statusV0309: 'container', chats: [{ n: 'Container', d: 'Agrupa C2-HUB por componente' }] },
+      { codigo: 'N.08.05.17_C2-HUB-D3-ROB_001', nome: '⚪ C2-HUB D3-ROB (reservado)', desc: 'Slot reservado · HUB aulas ROB · a criar futuro', status: 'planned', statusV0309: 'reservado', chats: [{ n: 'Reservado', d: 'A criar futuro' }] },
+      { codigo: 'N.08.05.18_C2-HUB-D3-TEC_001', nome: '🔄 C2-HUB D3-TEC', desc: 'HUB aulas D3-TEC · era CM-D3-AULA-HUB_001 · renomear no UI', status: 'running', statusV0309: 'renomear', chats: [{ n: 'Abrir C2-HUB-D3-TEC', d: 'https://claude.ai/chat/3245ff83-ba4b-457b-b864-1569cec465c2' }] }
+    ]
+  },
+
+  // ===== N.09 · APOIO ORGANIZACIONAL (2 níveis · nome funcional direto) =====
+  {
+    camada: 'n09',
+    titulo: '⚪ N.09 · APOIO ORGANIZACIONAL',
+    descCamada: 'Calendário · agenda-rascunho · suporte transversal · 2 níveis · nome funcional direto',
+    badge: '2 ativos',
+    expandido: false,
+    projetos: [
+      { codigo: 'N.09.01_CAL', nome: 'CAL · Calendário', desc: 'Era CM-CALENDÁRIO_001 · calendário institucional', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Link a capturar', d: 'CM ativo · URL a registrar' }] },
+      { codigo: 'N.09.02_AG', nome: 'AG · Agenda-Rascunho', desc: 'Era CM-AGENDA-RASC_001 · agenda de rascunho', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Link a capturar', d: 'CM ativo · URL a registrar' }] }
     ]
   },
 
   // ===== CROSS-REFERENCE V.08.30 =====
   {
-    camada: 'tut',
-    titulo: '🔴 CROSS-REFERENCE · Mapa V.08.30 (projetos pedagógicos)',
-    descCamada: 'Acesso ao mapa de 42 projetos pedagógicos publicado em github.io/mapa-projetos/',
+    camada: 'n01',
+    titulo: '🔗 CROSS-REFERENCE · Mapa V.08.30 (projetos pedagógicos)',
+    descCamada: 'Link para o mapa visual de 42 projetos pedagógicos publicado em github.io/mapa-projetos/',
     badge: '1 link',
     expandido: true,
     projetos: [
-      { codigo: 'V.08.30', nome: '⭐ Mapa de projetos pedagógicos', desc: '42 projetos · 9 camadas · PEI + TC + RB + ELT + TUT + FOR + SITE + MESTRE + CO · publicado em GitHub Pages', status: 'running', chats: [{ n: 'Abrir Mapa V.08.30', d: 'https://marobecosta.github.io/mapa-projetos/' }] }
+      { codigo: 'V.08.30', nome: '⭐ Mapa de projetos pedagógicos', desc: '42 projetos · 9 camadas · PEI + TC + RB + ELT + TUT + FOR + SITE + MESTRE + CO · publicado em GitHub Pages', status: 'running', statusV0309: 'ativo', chats: [{ n: 'Abrir Mapa V.08.30', d: 'https://marobecosta.github.io/mapa-projetos/' }] }
     ]
   }
 ];
+
+// v02.00 · renderiza status-badge V.03.09 (5 ícones)
+function renderStatusBadge(s) {
+  const map = {
+    'ativo':      { c: 's-ativo',      l: '✅ Ativo' },
+    'renomear':   { c: 's-renomear',   l: '🔄 Renomear' },
+    'acriar':     { c: 's-acriar',     l: '🟡 A criar' },
+    'reservado':  { c: 's-reservado',  l: '⚪ Reservado' },
+    'container':  { c: 's-container',  l: '🔵 Container' }
+  };
+  if (!s || !map[s]) return '';
+  return `<span class="status-badge ${map[s].c}">${map[s].l}</span>`;
+}
 
 function renderChats(chats, projCode) {
   // V7 · agrupador por bim · detecta _1B, _2B, _3B, _4B no nome do chat
@@ -1166,7 +1343,7 @@ dados.forEach(camada => {
     p.innerHTML = `
       <span class="projeto-emoji-camada" aria-hidden="true">${emojiCamada}</span>
       <div class="projeto-codigo">
-        <span class="status ${proj.status}"></span>${proj.codigo}
+        <span class="status ${proj.status}"></span>${proj.codigo}${renderStatusBadge(proj.statusV0309)}
         <button class="copy-btn" data-copy="${proj.codigo} — ${escapeHtml(proj.nome)} — ${escapeHtml(proj.desc)}">📋 desc</button>
       </div>
       <div class="projeto-nome">${proj.nome}</div>
